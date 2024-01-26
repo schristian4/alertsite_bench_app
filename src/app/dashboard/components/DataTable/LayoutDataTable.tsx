@@ -17,7 +17,8 @@ import { createParameterArray } from '@/utils/createParameterArray'
 import moment from 'moment'
 import { Columns } from './Columns'
 import { CardDescription } from '@/components/ui/card'
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Button } from '@/components/ui/button'
 export type UserDataObject = {
   status: JSX.Element
   major_site: string
@@ -193,18 +194,32 @@ export default function LayoutDataTable({
     <div className='mx-auto w-full'>
       <DataTable columns={Columns} data={updateDataObjectNew} />
       <div className='flex flex-row flex-wrap justify-between'>
-        <CardDescription
-          className='flex justify-center flex-col mt-[10.5px] pt-2 pl-2'
-          style={{ alignItems: 'flex-start' }}
-        >
-          <span>
-            <span>Api data is limited going back&nbsp;</span>
-            <span className='text-blue-300'>5 minutes</span>
-          </span>
-          <span className='text-blue-200 font-thin text-xs pl-3'>
-            Last entry delay of about 5 minutes&nbsp;
-          </span>
-        </CardDescription>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button
+                variant='outline'
+                className='flex justify-center flex-col mt-[10.5px] pt-2 pl-2 border-none'
+                style={{ alignItems: 'flex-start' }}
+              >
+                <span>
+                  <span>Api data is limited going back&nbsp;</span>
+                  <span className='text-blue-300'>5 minutes</span>
+                </span>
+                <span className='text-blue-200 font-thin text-xs pl-3'>
+                  Last entry delay of about 5 minutes&nbsp;
+                </span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Notice:</p>
+              <p>&nbsp;&nbsp;Alertsite API request payload</p>
+              <p>&nbsp;&nbsp;is to larger and its limits are </p>
+              <p>&nbsp;&nbsp;defined by the host server 🙁</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
         <div className='text-right pt-2 flex flex-row  justify-center'>
           <div className=' flex flex-col flex-end mt-[10.5px]'>
             <span className='text-sm font-semibold text-right '>{`Last Updated: ${lastUpdated}`}</span>
