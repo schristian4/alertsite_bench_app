@@ -1,0 +1,91 @@
+.minibar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.minibar__bar {
+  position: relative;
+  flex: 1;
+  margin-right: 1px;
+}
+.minibar__bar:last-child {
+  margin-right: 0px;
+}
+.minibar__bar_bg_light {
+  background-color: #eeeef4;
+}
+.minibar__bar_bg_dark {
+  background-color: #1e2840;
+}
+.red {
+  background-color: red !important;
+  color: red !important;
+}
+.minibar__bar:hover .minibar__fill {
+  background-color: #ccc;
+}
+
+.minibar__bar:hover .minibar__tooltip {
+  opacity: 1;
+  transform: translateY(-10px);
+  padding: 10px;
+}
+.minibar__tooltip > div {
+  padding: 5px;
+  font-size: 18px;
+  text-shadow: 1px 1px #b80000;
+}
+.minibar__tooltip {
+  position: absolute;
+  top: -50px;
+  right: 50%;
+  width: max-content;
+  margin-left: -10px;
+  text-align: center;
+  background-color: orange;
+  color: #eee;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: monospace;
+  line-height: 12px;
+  padding: 4px;
+  opacity: 0;
+  transition: transform 0.3s;
+  transform: translateY(0);
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: black 0px 20px 30px -10px;
+}
+
+.minibar--mini {
+  height: 50px;
+}
+
+.minibar--mini .minibar__bar {
+  max-width: 10px;
+  height: 100%;
+}
+
+.minibar__fill {
+  position: absolute;
+  background-color: #42b983;
+  min-height: 5px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: 0;
+}
+
+/** presentation **/
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.animate-fadeInOut {
+  animation: fadeInOut 3s ease-in-out infinite;
+}
