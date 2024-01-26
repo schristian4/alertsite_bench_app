@@ -23,6 +23,8 @@ export const IncidentBanner = ({
   dataObject: any
   setLocationSelection: (value: string) => void
 }) => {
+  const { theme } = useContext(ThemeProviderContext)
+
   if (dataObject === undefined) {
     return null
   }
@@ -33,8 +35,6 @@ export const IncidentBanner = ({
   let LocationKeyArray = Object.keys(siteObject)
 
   let firstSiteKeyPosition = Object.keys(siteObject[LocationKeyArray[0]])[0]
-
-  const { theme } = useContext(ThemeProviderContext)
 
   const createAlertItem = (locationName: string, count: number, index: number, location_id: number) => {
     const lightToColors = [

@@ -1,7 +1,3 @@
-'use client'
-
-import * as React from 'react'
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +12,8 @@ import { nestGroupsBy } from '@/utils/groupFunctions'
 import { Button } from '../../../../components/ui/button'
 import { ScrollArea } from '../../../../components/ui/scroll-area'
 import { cityDataType } from '../shapes'
+import { useEffect } from 'react'
+import React from 'react'
 
 export function LocationDropDown({
   dataObject,
@@ -30,7 +28,6 @@ export function LocationDropDown({
 
   let locationKeyArray = Object.keys(siteObject)
   let siteKeyArray = Object.keys(siteObject[locationKeyArray[0]])
-
   const CreateDropDownItemList = () => {
     const DropDownItem = locationKeyArray.map((locationID: string, index: number) => {
       let locationName = siteObject[locationID][siteKeyArray[0]]
@@ -46,10 +43,7 @@ export function LocationDropDown({
 
     return <>{DropDownItem}</>
   }
-
-  React.useEffect(() => {
-    CreateDropDownItemList()
-  }, [dropDownPosition])
+  useEffect(() => {}, [dropDownPosition])
 
   return (
     <DropdownMenu>
