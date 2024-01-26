@@ -16,6 +16,7 @@ import { getPercentage } from '@/utils/getPercentage'
 import { createParameterArray } from '@/utils/createParameterArray'
 import moment from 'moment'
 import { Columns } from './Columns'
+import { CardDescription } from '@/components/ui/card'
 
 export type UserDataObject = {
   status: JSX.Element
@@ -191,31 +192,45 @@ export default function LayoutDataTable({
   return (
     <div className='mx-auto w-full'>
       <DataTable columns={Columns} data={updateDataObjectNew} />
-      <div className='text-right pt-2 flex flex-row justify-end align-middle'>
-        <div className=' flex flex-col justify-evenly mt-[14.5px]'>
-          <span className='text-sm font-semibold text-right '>{`Last Updated: ${lastUpdated}`}</span>
-          {!showText && (
-            <span className='text-sm font-semibold text-right text-gray-500 h-[24px]'>
-              Refresh to update table...
-            </span>
-          )}
-          {showText ? (
-            <span className='animate-fadeInOut text-sm font-semibold text-right text-gray-500 h-[24px]'>
-              Refreshing data...
-            </span>
-          ) : (
-            <span className='opacity-0 h-[0px]'>Click to refresh</span>
-          )}
-        </div>
-        <button
-          onClick={handleRerender}
-          className='relative group rounded-lg border w-12 h-12 border-transparent ml-2 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
+      <div className='flex flex-row flex-wrap justify-between'>
+        <CardDescription
+          className='flex justify-center flex-col mt-[10.5px] pt-2 pl-2'
+          style={{ alignItems: 'flex-start' }}
         >
-          <span className='animate-ping absolute inline-flex left-3 top-3 h-6 w-6 rounded-lg bg-sky-100 opacity-10'></span>
-          <span className='absolute inline-flex  top-0 left-0 mx-4 my-3 transition-transform hover:rotate-[400deg] motion-reduce:transform-none duration-300'>
-            &#10227;
+          <span>
+            <span>Api data is limited going back&nbsp;</span>
+            <span className='text-blue-300'>30 minutes</span>
           </span>
-        </button>
+          <span className='text-blue-200 font-thin text-xs pl-3'>
+            Last entry delay of about 10 minutes&nbsp;
+          </span>
+        </CardDescription>
+        <div className='text-right pt-2 flex flex-row  justify-center'>
+          <div className=' flex flex-col flex-end mt-[10.5px]'>
+            <span className='text-sm font-semibold text-right '>{`Last Updated: ${lastUpdated}`}</span>
+            {!showText && (
+              <span className='text-sm font-semibold text-right text-gray-500 h-[24px]'>
+                Refresh to update table...
+              </span>
+            )}
+            {showText ? (
+              <span className='animate-fadeInOut text-sm font-semibold text-right text-gray-500 h-[24px]'>
+                Refreshing data...
+              </span>
+            ) : (
+              <span className='opacity-0 h-[0px]'>Click to refresh</span>
+            )}
+          </div>
+          <button
+            onClick={handleRerender}
+            className='relative group rounded-lg border w-12 h-12 border-transparent ml-2 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
+          >
+            <span className='animate-ping absolute inline-flex left-3 top-3 h-6 w-6 rounded-lg bg-sky-100 opacity-10'></span>
+            <span className='absolute inline-flex  top-0 left-0 mx-4 my-3 transition-transform hover:rotate-[400deg] motion-reduce:transform-none duration-300'>
+              &#10227;
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   )
