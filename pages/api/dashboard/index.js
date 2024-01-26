@@ -8,7 +8,7 @@ const BufferText = `Basic ` + BufferSession
 const now = moment.utc()
 const newNow = now.subtract(10, 'minutes')
 const formattedTime = newNow.format('YYYY-MM-DD+hh:mm:ss')
-const newTime = now.subtract(30, 'minutes')
+const newTime = now.subtract(20, 'minutes')
 const formattedNewTime = newTime.format('YYYY-MM-DD+hh:mm:ss')
 
 let newDate = `&start_date=${formattedNewTime}&end_date=${formattedTime}`

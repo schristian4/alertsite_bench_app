@@ -199,7 +199,7 @@ export default function LayoutDataTable({
         >
           <span>
             <span>Api data is limited going back&nbsp;</span>
-            <span className='text-blue-300'>30 minutes</span>
+            <span className='text-blue-300'>20 minutes</span>
           </span>
           <span className='text-blue-200 font-thin text-xs pl-3'>
             Last entry delay of about 10 minutes&nbsp;
