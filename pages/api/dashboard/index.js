@@ -11,13 +11,13 @@ const newNow = now.subtract(5, 'minutes')
 const formattedTime = newNow.format('YYYY-MM-DD+hh:mm:ss')
 const newTime = now.subtract(5, 'minutes')
 const formattedNewTime = newTime.format('YYYY-MM-DD+hh:mm:ss')
-// console.log('first', first)
+
 let newDate = `&start_date=${formattedNewTime}&end_date=${formattedTime}`
-console.log('formatedDateRange:', newDate)
+
 async function get_monitor_data(id, rdate) {
   // &rdate=${rdate}
   const monitorURL = `${process.env.NEXT_PUBLIC_ALERT_URL}?devices=${id}${newDate}&api_version=2&format=json`
-  console.log('monitorURL', monitorURL)
+
   const getMonitorData = await fetch(monitorURL, {
     method: 'GET',
     headers: {
