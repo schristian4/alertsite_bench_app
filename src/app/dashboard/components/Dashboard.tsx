@@ -10,6 +10,8 @@ import { LocationDropDown } from './LocationDropDown.tsx/LocationDropDown'
 import { WidgetBanner } from './WidgetBanner/WidgetBanner'
 import { DataProviderContext } from './providers/data-provider'
 import LoadingWrapper from './shared/LoadingWrapper'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 type CardProps = React.ComponentProps<typeof Card>
 
 type AccountShape = {
@@ -45,7 +47,7 @@ function Dashboard({ className, ...props }: CardProps) {
     <div className='main-container min-width-80 w-full'>
       <Card className={cn('w-[100%]', className)} {...props}>
         <CardHeader className={'flex flex-row justify-between items-center '}>
-          <CardTitle>AlertSite Technical Benchmark</CardTitle>
+          <CardTitle>AlertSite Technical Benchmark 2.0</CardTitle>
           <div className={'flex flex-row gap-5 items-center '}>
             {/* 
             // TODO: Implement this feature
@@ -81,6 +83,11 @@ function Dashboard({ className, ...props }: CardProps) {
               rerender={rerender}
             />
           </LoadingWrapper>
+          <div>
+            <Button className='text-center bg-gray-500 ' asChild>
+              <Link href='https://techbench-react.vercel.app/'>Checkout the Legacy Version 👴</Link>
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
