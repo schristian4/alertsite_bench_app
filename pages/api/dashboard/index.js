@@ -5,8 +5,9 @@ const plainText = `${process.env.NEXT_PUBLIC_ALERT_USERNAME}:${process.env.NEXT_
 const BufferSession = Buffer.from(plainText).toString('base64')
 const BufferText = `Basic ` + BufferSession
 // https://www.alertsite.com/report-api/detail/C99999?devices=76981,94332&start_date=2013-01-20+00:00:00&end_date=2013-01-22+23:59:59&api_version=2&format=json
-const now = moment()
-const formattedTime = now.format('YYYY-MM-DD+hh:mm:ss')
+const now = moment.utc()
+const newNow = now.subtract(8, 'minutes')
+const formattedTime = newNow.format('YYYY-MM-DD+hh:mm:ss')
 const newTime = now.subtract(5, 'minutes')
 const formattedNewTime = newTime.format('YYYY-MM-DD+hh:mm:ss')
 
