@@ -31,5 +31,11 @@ const LoadSpinner = () => {
   )
 }
 const LoadSkeleton = () => {
-  return <Skeleton className='w-[100px] h-[20px] rounded-full' />
+  return (
+    <div>
+      <Skeleton className='w-[300px] h-[20px] rounded-full mb-3' />
+      <Skeleton className='w-[400px] h-[20px] rounded-full mb-3' />
+      <Skeleton className='w-[200px] h-[20px] rounded-full mb-3' />
+    </div>
+  )
 }
