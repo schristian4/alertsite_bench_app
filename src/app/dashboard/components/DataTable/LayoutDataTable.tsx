@@ -105,7 +105,7 @@ export default function LayoutDataTable({
     return (
       <div key={index} className={minibar__bar}>
         <span className='minibar__tooltip'>
-          <div>Date: {moment.utc(inputDate).local().format('YYYY-MM-DD hh:mm:ss A')}</div>
+          <div>Date: {moment(inputDate).local().format('YYYY-MM-DD hh:mm:ss A')}</div>
           <div>Response Time: {Number(inputTime).toFixed(3)}</div>
         </span>
         <div className={minibar__fill + theme_mode} style={{ height: percentage }}></div>

@@ -25,7 +25,7 @@ export const WidgetBanner = ({
 
   function formatTimestamp(lastErrorTimestamp: string): string {
     let gmtMoment = moment(lastErrorTimestamp)
-    let localMoment = moment(moment().format()).utc().format('YYYY-MM-DD HH:mm:ss')
+    let localMoment = moment(moment().format()).format('YYYY-MM-DD HH:mm:ss')
 
     let minutes = Math.abs(gmtMoment.diff(localMoment, 'minutes'))
     let hours = Math.abs(gmtMoment.diff(localMoment, 'hours'))
@@ -41,7 +41,6 @@ export const WidgetBanner = ({
   }
 
   function findLastReportedError(objects: cityDataType[]) {
-    const now = moment.utc()
     const filterErrorObject = objects.filter((obj) => {
       if (obj.status !== '0') {
         return obj.dt_status
