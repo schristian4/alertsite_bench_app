@@ -20,7 +20,7 @@ type AccountShape = {
 }
 
 function Dashboard({ className, ...props }: CardProps) {
-  const { monitorData, lastUpdated, rerender } = React.useContext(DataProviderContext)
+  const { monitorData, rerender } = React.useContext(DataProviderContext)
   // const [userInput, setUserInput] = React.useState<AccountShape>({
   //   username: '',
   //   password: '',
@@ -79,12 +79,11 @@ function Dashboard({ className, ...props }: CardProps) {
             <LayoutDataTable
               dataObject={monitorData}
               locationSelection={selectedLocation}
-              lastUpdated={lastUpdated}
               rerender={rerender}
             />
           </LoadingWrapper>
           <div>
-            <Button className='text-center bg-gray-500 ' asChild>
+            <Button className='text-center bg-gray-500 '>
               <Link href='https://techbench-react.vercel.app/'>Checkout the Legacy Version 👴</Link>
             </Button>
           </div>

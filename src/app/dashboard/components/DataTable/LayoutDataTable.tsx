@@ -1,24 +1,14 @@
+import React, { useContext, useState } from 'react'
 import DataTable from './DataTable'
-import React, { useContext, useEffect, useState } from 'react'
-import ReactDOM from 'react-dom/client'
 
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from '@tanstack/react-table'
-import { nestGroupsBy } from '@/utils/groupFunctions'
-import { ThemeProviderContext } from '../providers/theme-provider'
-import { getPercentage } from '@/utils/getPercentage'
-import { createParameterArray } from '@/utils/createParameterArray'
-import moment from 'moment'
-import { Columns } from './Columns'
-import { CardDescription } from '@/components/ui/card'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { createParameterArray } from '@/utils/createParameterArray'
+import { getPercentage } from '@/utils/getPercentage'
+import { nestGroupsBy } from '@/utils/groupFunctions'
+import moment from 'moment'
+import { ThemeProviderContext } from '../providers/theme-provider'
+import { Columns } from './Columns'
 export type UserDataObject = {
   status: JSX.Element
   major_site: string
@@ -60,12 +50,10 @@ const IconStatus = (avail: number) => {
 export default function LayoutDataTable({
   dataObject,
   locationSelection,
-  lastUpdated,
   rerender,
 }: {
   dataObject: any
   locationSelection: string
-  lastUpdated: string
   rerender: Function
 }) {
   const { theme } = useContext(ThemeProviderContext)
@@ -204,10 +192,10 @@ export default function LayoutDataTable({
               >
                 <span>
                   <span>Api data is limited going back&nbsp;</span>
-                  <span className='text-blue-300'>1 hour</span>
+                  <span className='text-blue-300'>45 minutes</span>
                 </span>
                 <span className='text-blue-200 font-thin text-xs pl-3'>
-                  Last entry delay of about 2 minutes&nbsp;
+                  Last entry delay of about 1-2 minutes&nbsp;
                 </span>
               </Button>
             </TooltipTrigger>
@@ -222,7 +210,9 @@ export default function LayoutDataTable({
 
         <div className='text-right pt-2 flex flex-row  justify-center'>
           <div className=' flex flex-col flex-end mt-[10.5px]'>
-            <span className='text-sm font-semibold text-right '>{`Last Updated: ${lastUpdated}`}</span>
+            <span className='text-sm font-semibold text-right '>{`Last Updated: ${moment().format(
+              'MMMM Do YYYY, h:mm:ss a'
+            )}`}</span>
             {!showText && (
               <span className='text-sm font-semibold text-right text-gray-500 h-[24px]'>
                 Refresh to update table...
@@ -236,7 +226,7 @@ export default function LayoutDataTable({
               <span className='opacity-0 h-[0px]'>Click to refresh</span>
             )}
           </div>
-          <button
+          <Button
             onClick={handleRerender}
             className='relative group rounded-lg border w-12 h-12 border-transparent ml-2 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
           >
@@ -244,7 +234,7 @@ export default function LayoutDataTable({
             <span className='absolute inline-flex  top-0 left-0 mx-4 my-3 transition-transform hover:rotate-[400deg] motion-reduce:transform-none duration-300'>
               &#10227;
             </span>
-          </button>
+          </Button>
         </div>
       </div>
     </div>

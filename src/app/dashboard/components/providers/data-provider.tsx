@@ -8,7 +8,6 @@ type DataProviderProps = {
 type DataProviderState = {
   loading: true | false
   monitorData: any[]
-  lastUpdated: string
   rerender: Function
 }
 
@@ -19,7 +18,6 @@ type MonitorDataShape = {
 const initialState: DataProviderState = {
   loading: true,
   monitorData: [],
-  lastUpdated: '',
   rerender: () => {},
 }
 function concatArraysRemoveDuplicates(...arrays: any[]) {
@@ -47,6 +45,9 @@ const batch_urls: string[] = [
   '/api/monitor_batch_3',
   '/api/monitor_batch_4',
   '/api/monitor_batch_5',
+  '/api/monitor_batch_6',
+  '/api/monitor_batch_7',
+  '/api/monitor_batch_8',
 ]
 export const DataProviderContext = createContext<DataProviderState>(initialState)
 export function DataProvider({ children }: DataProviderProps) {
@@ -54,7 +55,6 @@ export function DataProvider({ children }: DataProviderProps) {
 
   const [loadingState, setLoadingState] = useState<boolean>(true)
   const [monitorData, setMonitorData] = useState<any[]>([])
-  const [lastUpdated, setLastUpdated] = useState<string>('none')
   const [error, setError] = useState<Error | null>(null)
   const [count, setCount] = useState(undefined)
 
@@ -74,7 +74,6 @@ export function DataProvider({ children }: DataProviderProps) {
 
     const data = concatArraysRemoveDuplicates(...monitorData)
     setMonitorData(data)
-    setLastUpdated(moment().format('MMMM Do YYYY, h:mm:ss a'))
     setLoadingState(false)
     // fetch('/api/monitor_batch_1') // Adjust the URL as needed
     //   .then((response) => response.json())
@@ -106,7 +105,6 @@ export function DataProvider({ children }: DataProviderProps) {
   const value: DataProviderState = {
     loading: loadingState,
     monitorData: monitorData,
-    lastUpdated: lastUpdated,
     rerender: rerender,
   }
   return <DataProviderContext.Provider value={value}>{children}</DataProviderContext.Provider>
