@@ -63,7 +63,7 @@ export function generateBackwardTimestampPairs(intervalMinutes, numberOfInterval
 }
 
 //Generate timestamp pairs for the last 60 minutes
-const intervalMinutes = 10 // Interval of 10 minutes
+const intervalMinutes = 5 // Interval of 10 minutes
 const numberOfIntervals = 6 // Number of intervals
 const timestampPairs = generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals)
 
