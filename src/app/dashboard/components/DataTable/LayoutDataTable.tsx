@@ -204,19 +204,19 @@ export default function LayoutDataTable({
               >
                 <span>
                   <span>Api data is limited going back&nbsp;</span>
-                  <span className='text-blue-300'>5 minutes</span>
+                  <span className='text-blue-300'>1 hour</span>
                 </span>
                 <span className='text-blue-200 font-thin text-xs pl-3'>
-                  Last entry delay of about 5 minutes&nbsp;
+                  Last entry delay of about 2 minutes&nbsp;
                 </span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
-              <p>Notice:</p>
-              <p>&nbsp;&nbsp;Alertsite API request payload</p>
+            {/* <TooltipContent>
+              <p>Upcoming Features:</p>
+              <p>&nbsp;&nbsp;Api data is populated in batch requests </p>
               <p>&nbsp;&nbsp;is to larger and its limits are </p>
               <p>&nbsp;&nbsp;defined by the host server 🙁</p>
-            </TooltipContent>
+            </TooltipContent> */}
           </Tooltip>
         </TooltipProvider>
 
