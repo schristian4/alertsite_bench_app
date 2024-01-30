@@ -25,23 +25,23 @@ function Dashboard({ className, ...props }: CardProps) {
   //   username: '',
   //   password: '',
   // })
-  const [selectedLocation, setLocationSelection] = React.useState('')
+  const [selectedLocation, setLocationSelection] = React.useState('20')
 
   const handleDropDownMenuChange = (value: string) => {
     setLocationSelection(value)
   }
   // function handleSubmitParams(value: any) {}
 
-  const setInitialOptionValue: Function = React.useCallback(() => {
-    const defaultOption = nestGroupsBy(monitorData, ['obj_location', 'device_descrip'])
-    setLocationSelection(Object.keys(defaultOption)[0])
-  }, [monitorData])
+  // const setInitialOptionValue: Function = React.useCallback(() => {
+  //   const defaultOption = nestGroupsBy(monitorData, ['obj_location', 'device_descrip'])
+  //   setLocationSelection(Object.keys(defaultOption)[0])
+  // }, [monitorData])
 
   const isDataLoading = monitorData.length !== 0
 
-  useEffect(() => {
-    setInitialOptionValue()
-  }, [setInitialOptionValue])
+  // useEffect(() => {
+  //   // setInitialOptionValue()
+  // }, [setInitialOptionValue])
 
   return (
     <div className='main-container '>
