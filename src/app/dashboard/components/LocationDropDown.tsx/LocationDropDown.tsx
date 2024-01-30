@@ -12,9 +12,9 @@ import { nestGroupsBy } from '@/utils/groupFunctions'
 import { Button } from '../../../../components/ui/button'
 import { ScrollArea } from '../../../../components/ui/scroll-area'
 import { cityDataType } from '../shapes'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import React from 'react'
-
+import { SortedLocationNameIds } from '@/lib/constants'
 export function LocationDropDown({
   dataObject,
   dropDownPosition,
@@ -24,16 +24,22 @@ export function LocationDropDown({
   handleDropDownMenuChange: (value: any) => void
   dropDownPosition: any
 }) {
-  let siteObject = nestGroupsBy(dataObject, ['obj_location', 'device_descrip'])
+  const filterArrayByLocationId = useCallback(
+    (data: any, locationId: any) => {
+      let x = data.filter((item: any) => item[0] === locationId)[0]
+      if (!x) {
+        x = ['No Location', 'No Location']
+      }
+      return { location_name: x[1], location_id: x[0] }
+    },
+    [dropDownPosition]
+  )
 
-  let locationKeyArray = Object.keys(siteObject)
-  let siteKeyArray = Object.keys(siteObject[locationKeyArray[0]])
+  const { location_name, location_id } = filterArrayByLocationId(SortedLocationNameIds, dropDownPosition)
   const CreateDropDownItemList = () => {
-    const DropDownItem = locationKeyArray.map((locationID: string, index: number) => {
-      let locationName = siteObject[locationID][siteKeyArray[0]]
-        ? siteObject[locationID][siteKeyArray[0]][0].location_descrip
-        : 'No Location Name'
-
+    const DropDownItem = SortedLocationNameIds.map((location: string[], index: number) => {
+      let locationName = location[1]
+      let locationID = location[0]
       return (
         <React.Fragment key={index}>
           <DropdownMenuRadioItem value={locationID}>{locationName}</DropdownMenuRadioItem>
@@ -49,9 +55,7 @@ export function LocationDropDown({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant='outline'>
-          {dataObject.length > 0 && dataObject[dropDownPosition] === undefined
-            ? dataObject[0].location_descrip
-            : siteObject[dropDownPosition][siteKeyArray[0]][0].location_descrip}
+          {location_name} - {location_id}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-96'>

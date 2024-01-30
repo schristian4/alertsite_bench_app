@@ -11,6 +11,22 @@ export const monitorIDs = [
   '613076',
   '610380',
 ]
+
+export const batch_urls = [
+  '/api/monitor_batch_0',
+  '/api/monitor_batch_1',
+  '/api/monitor_batch_2',
+  '/api/monitor_batch_3',
+  '/api/monitor_batch_4',
+  '/api/monitor_batch_5',
+  '/api/monitor_batch_6',
+  '/api/monitor_batch_7',
+  '/api/monitor_batch_8',
+  '/api/monitor_batch_9',
+  '/api/monitor_batch_10',
+  '/api/monitor_batch_11',
+]
+
 const plainText = `${process.env.NEXT_PUBLIC_ALERT_USERNAME}:${process.env.NEXT_PUBLIC_ALERT_PASSWORD}`
 const BufferSession = Buffer.from(plainText).toString('base64')
 export const bufferSessionOutput = `Basic ` + BufferSession
@@ -25,6 +41,27 @@ export function generate_batch_timestamp(startDifference) {
   timestamps.push({ startTimestamp, endTimestamp })
   return timestamps[0]
 }
+
+export function generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals) {
+  let timestamps = []
+  let momentEnd = moment().tz('America/New_York') // Current timestamp in Eastern Time
+
+  for (let i = 0; i < numberOfIntervals; i++) {
+    let endTimestamp = momentEnd.format('YYYY-MM-DD+HH:mm:ss')
+    let startTimestamp = momentEnd.subtract(intervalMinutes, 'minutes').format('YYYY-MM-DD+HH:mm:ss')
+    // Push to ensure the array is ordered from present to past
+    timestamps.push({ startTimestamp, endTimestamp })
+  }
+
+  return timestamps
+}
+
+//Generate timestamp pairs for the last 45 minutes
+const intervalMinutes = 5 // Interval of 5 minutes
+const numberOfIntervals = 12 // Number of intervals
+const timestampPairs = generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals)
+
+export { timestampPairs }
 
 // function generateTimestampPairs(startDateTime, intervalMinutes, numberOfIntervals) {
 //   let timestamps = []
@@ -46,25 +83,3 @@ export function generate_batch_timestamp(startDifference) {
 // const numberOfIntervals = 3 // Number of intervals
 
 // const timestampPairs = generateTimestampPairs(startDateTime, intervalMinutes, numberOfIntervals)
-
-export function generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals) {
-  let timestamps = []
-  let momentEnd = moment().tz('America/New_York') // Current timestamp in Eastern Time
-
-  for (let i = 0; i < numberOfIntervals; i++) {
-    let endTimestamp = momentEnd.format('YYYY-MM-DD+HH:mm:ss')
-    let startTimestamp = momentEnd.subtract(intervalMinutes, 'minutes').format('YYYY-MM-DD+HH:mm:ss')
-
-    // Prepend to ensure the array is ordered from past to present
-    timestamps.push({ startTimestamp, endTimestamp })
-  }
-
-  return timestamps
-}
-
-//Generate timestamp pairs for the last 45 minutes
-const intervalMinutes = 5 // Interval of 5 minutes
-const numberOfIntervals = 9 // Number of intervals
-const timestampPairs = generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals)
-
-export { timestampPairs }

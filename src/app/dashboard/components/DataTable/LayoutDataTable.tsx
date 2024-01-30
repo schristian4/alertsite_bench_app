@@ -192,9 +192,13 @@ export default function LayoutDataTable({
               >
                 <span>
                   <span>Api data is limited going back&nbsp;</span>
-                  <span className='text-blue-300'>45 minutes</span>
+                  <span className={`${theme === 'light' ? 'text-blue-400' : 'text-blue-200'} `}>1 hour</span>
                 </span>
-                <span className='text-blue-200 font-thin text-xs pl-3'>
+                <span
+                  className={`${
+                    theme === 'light' ? 'text-blue-400' : 'text-blue-200'
+                  } text-xs pl-3 font-light`}
+                >
                   Last entry delay of about 1-2 minutes&nbsp;
                 </span>
               </Button>
@@ -228,10 +232,13 @@ export default function LayoutDataTable({
           </div>
           <Button
             onClick={handleRerender}
-            className='relative group rounded-lg border w-12 h-12 border-transparent ml-2 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
+            className='relative group rounded-lg border w-12 h-12 border-transparent ml-2 transition-colors hover:border-gray-300  '
           >
             <span className='animate-ping absolute inline-flex left-3 top-3 h-6 w-6 rounded-lg bg-sky-100 opacity-10'></span>
-            <span className='absolute inline-flex  top-0 left-0 mx-4 my-3 transition-transform hover:rotate-[400deg] motion-reduce:transform-none duration-300'>
+            <span
+              className='absolute inline-flex top-0 left-0  px-4 py-3 transition-transform hover:rotate-[400deg] motion-reduce:transform-none duration-300'
+              style={{ fontSize: 29 }}
+            >
               &#10227;
             </span>
           </Button>

@@ -1,9 +1,5 @@
 .main-container {
   max-width: 1280px;
-
-  /* margin: 0 auto;
-  padding: 2rem;
-  text-align: center; */
 }
 .iconWrapper {
   /* position: relative; */
@@ -59,11 +55,61 @@
   left: 5px;
   content: '\2714';
 }
-
+.card-title {
+  padding-bottom: 12px;
+}
 .card {
   padding: 2em;
 }
 
 .read-the-docs {
   color: #888;
+}
+@media screen and (max-width: 620px) {
+  .widget-card {
+    width: 100%;
+  }
+  .incident-card-container {
+    gap: 1em;
+  }
+  .alert-item-wrapper {
+    width: 100%;
+  }
+}
+@media (min-width: 621px) and (max-width: 768px) {
+  .widget-card {
+    width: 48%;
+  }
+  .incident-card-container {
+    gap: 1em;
+  }
+  .alert-item-wrapper {
+    min-width: 48%;
+    width: 48%;
+    height: 125px;
+  }
+  .alert-item-wrapper > div {
+    height: 100%;
+  }
+}
+@media screen and (min-width: 769px) {
+  .widget-card {
+    width: 48%;
+  }
+  .alert-item-wrapper {
+    min-width: 45%;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .main-container {
+    min-width: 1024px;
+  }
+  .adjust-mobile {
+  }
+  .alert-item-wrapper {
+    min-width: 22%;
+  }
+  .widget-card {
+    width: 24%;
+  }
 }

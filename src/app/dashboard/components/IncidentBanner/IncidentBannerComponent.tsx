@@ -52,7 +52,7 @@ export const IncidentBanner = ({
     }
     return (
       <button
-        className='font-semibold text-sm   rounded-md shadow-sm hover:-translate-y-1 hover:scale-105  ease-in-out delay-25 duration-300'
+        className='font-semibold text-sm alert-item-wrapper rounded-md shadow-sm hover:-translate-y-1 hover:scale-105 ease-in-out delay-25 duration-300'
         onClick={handleClick}
       >
         <Card
@@ -61,7 +61,7 @@ export const IncidentBanner = ({
         >
           <p className='text-lg font-[700]'>{locationName}</p>
 
-          <div className='space-y-1 flex flex-grow flex-row justify-center gap-2  items-center w-300 '>
+          <div className='space-y-1 flex flex-grow flex-row justify-center gap-2 items-center  '>
             <p className='text-lg '>Error Count:</p>
             <p className='text-lg font-[600] text-center m-0! p-0' style={{ margin: 0 }}>
               {count}
@@ -122,9 +122,9 @@ export const IncidentBanner = ({
         <CardTitle className='flex flex-start'>Incident History Log</CardTitle>
       </CardHeader>
 
-      <CardContent className='flex w-full flex-wrap gap-10 justify-center'>
-        {IncidentBannerContent.map((x, index: number) => {
-          return <React.Fragment key={index}>{x}</React.Fragment>
+      <CardContent className='flex w-full flex-wrap gap-10 justify-center incident-card-container'>
+        {IncidentBannerContent.map((cards, index: number) => {
+          return <React.Fragment key={index}>{cards}</React.Fragment>
         })}
       </CardContent>
     </Card>

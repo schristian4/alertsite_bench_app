@@ -44,10 +44,10 @@ function Dashboard({ className, ...props }: CardProps) {
   }, [setInitialOptionValue])
 
   return (
-    <div className='main-container min-width-80 w-full'>
+    <div className='main-container '>
       <Card className={cn('w-[100%]', className)} {...props}>
-        <CardHeader className={'flex flex-row justify-between items-center '}>
-          <CardTitle>AlertSite Technical Benchmark 2.0</CardTitle>
+        <CardHeader className={'flex flex-row justify-between items-center flex-wrap'}>
+          <CardTitle className={'card-title'}>AlertSite Technical Benchmark 2.0</CardTitle>
           <div className={'flex flex-row gap-5 items-center '}>
             {/* 
             // TODO: Implement this feature
@@ -59,6 +59,7 @@ function Dashboard({ className, ...props }: CardProps) {
               userInput={userInput}
             /> */}
             <LoadingWrapper isLoading={isDataLoading} loadingType='spinner'>
+              {/* <></> */}
               <LocationDropDown
                 dataObject={monitorData}
                 handleDropDownMenuChange={handleDropDownMenuChange}

@@ -80,7 +80,7 @@ export const WidgetBanner = ({
 
   return (
     <div className='flex flex-wrap w-full gap-2 justify-center '>
-      <Card className='flex flex-wrap w-[24%] '>
+      <Card className='flex flex-wrap widget-card w-[24%] min-w-[220px]'>
         <div className='grid row-span-3 w-full m-5 gap-3 font-medium'>
           <p className='flex flex-start text-sm'>Last Error</p>
           <div className='flex  justify-center text-4xl' style={{ alignItems: 'center' }}>
@@ -92,7 +92,7 @@ export const WidgetBanner = ({
           </CardDescription>
         </div>
       </Card>
-      <Card className='flex flex-wrap w-[24%]'>
+      <Card className='flex flex-wrap widget-card w-[24%] min-w-[220px] '>
         <div className='grid row-span-3 w-full m-5 gap-3 font-medium'>
           <p className='flex flex-start text-sm'>Average Response Time</p>
           <div className='flex justify-center text-4xl' style={{ alignItems: 'center' }}>
@@ -104,7 +104,7 @@ export const WidgetBanner = ({
           </CardDescription>
         </div>
       </Card>
-      <Card className='flex flex-wrap w-[24%]'>
+      <Card className='flex flex-wrap widget-card w-[24%] min-w-[220px] '>
         <div className='grid row-span-3 w-full m-5 gap-3 font-medium'>
           <p className='flex flex-start text-sm'>Average Availability</p>
           <div className='flex  justify-center text-4xl' style={{ alignItems: 'center' }}>
@@ -115,7 +115,7 @@ export const WidgetBanner = ({
           </CardDescription>
         </div>
       </Card>
-      <Card className='flex flex-wrap w-[24%]'>
+      <Card className='flex flex-wrap widget-card w-[24%] min-w-[220px]'>
         <div className='grid row-span-3 w-full m-5 gap-3 font-medium'>
           <p className='flex flex-start text-sm'>Error Ratio</p>
           <div className='flex  justify-center text-4xl' style={{ alignItems: 'center' }}>

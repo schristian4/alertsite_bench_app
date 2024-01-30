@@ -1,7 +1,7 @@
 'use client'
 import moment from 'moment'
 import { useEffect, useState, createContext, useReducer, useRef } from 'react'
-
+import { batch_urls } from '@/lib/constants'
 type DataProviderProps = {
   children: React.ReactNode
 }
@@ -38,17 +38,6 @@ function concatArraysRemoveDuplicates(...arrays: any[]) {
   })
 }
 
-const batch_urls: string[] = [
-  '/api/monitor_batch_0',
-  '/api/monitor_batch_1',
-  '/api/monitor_batch_2',
-  '/api/monitor_batch_3',
-  '/api/monitor_batch_4',
-  '/api/monitor_batch_5',
-  '/api/monitor_batch_6',
-  '/api/monitor_batch_7',
-  '/api/monitor_batch_8',
-]
 export const DataProviderContext = createContext<DataProviderState>(initialState)
 export function DataProvider({ children }: DataProviderProps) {
   const debounceTimer = useRef<number | null>(null)
@@ -63,29 +52,19 @@ export function DataProvider({ children }: DataProviderProps) {
   }
 
   async function getMonitorData() {
-    // var promises = batch_urls.map((url) => fetch(url))
-
-    const monitorData = await Promise.all(
-      batch_urls.map(async (url) => {
-        const resp = await fetch(url)
-        return resp.json()
-      })
-    )
-
-    const data = concatArraysRemoveDuplicates(...monitorData)
-    setMonitorData(data)
-    setLoadingState(false)
-    // fetch('/api/monitor_batch_1') // Adjust the URL as needed
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setMonitorData(data)
-    //     setLastUpdated(moment().format('MMMM Do YYYY, h:mm:ss a'))
-    //     setLoadingState(false)
-    //   })
-    //   .catch((error) => {
-    //     console.error('Fetch error:', error)
-    //     setError(error)
-    //   })
+    try {
+      const monitorData = await Promise.all(
+        batch_urls.map(async (url) => {
+          const resp = await fetch(url)
+          return resp.json()
+        })
+      )
+      const data = concatArraysRemoveDuplicates(...monitorData)
+      setMonitorData(data)
+      setLoadingState(false)
+    } catch (error) {
+      console.error('Fetch error:', error)
+    }
   }
 
   useEffect(() => {
