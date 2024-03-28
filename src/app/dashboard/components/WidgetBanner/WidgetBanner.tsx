@@ -32,11 +32,11 @@ export const WidgetBanner = ({
     let days = Math.abs(gmtMoment.diff(localMoment, 'days'))
 
     if (days >= 1) {
-      return `${days} days`
+      return `${days} day${days > 1 ? 's' : ''}`
     } else if (hours >= 1) {
-      return `${hours} hours`
+      return `${hours} hour${hours > 1 ? 's' : ''}`
     } else {
-      return `${minutes} mins`
+      return `${minutes} minute${minutes > 1 ? 's' : ''}`
     }
   }
 
