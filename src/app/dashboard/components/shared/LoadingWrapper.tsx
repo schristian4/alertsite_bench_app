@@ -1,18 +1,59 @@
+import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useState } from 'react'
 
 export default function LoadingWrapper({
   children,
   isLoading,
   loadingType,
+  progress,
 }: {
   children: React.ReactNode
   isLoading: boolean
   loadingType: 'spinner' | 'skeleton'
+  progress: number
 }) {
-  const LoaderObject = loadingType === 'spinner' ? LoadSpinner : LoadSkeleton
-  return <>{isLoading === false ? <LoaderObject /> : <>{children}</>}</>
+  const LoaderObject =
+    loadingType === 'spinner' ? (
+      <LoadSpinner />
+    ) : (
+      <div>
+        <FadeInFadeOutProgressLabel />
+        <Progress value={progress} />
+      </div>
+    )
+
+  // <LoadSkeleton progress={progress} />
+  return <>{isLoading === false ? LoaderObject : <>{children}</>}</>
 }
 
+const FadeInFadeOutProgressLabel = () => {
+  return (
+    <div className='items-center justify-center'>
+      <div
+        className='text-center text-1xl font-bold mb-4'
+        style={{
+          animation: 'fadeInOut 3s infinite',
+        }}
+      >
+        Loading Data<span> </span>...<span> </span> it can take 10-15 seconds to load data.
+      </div>
+
+      {/* You can also inject global styles using styled-jsx */}
+      <style jsx global>{`
+        @keyframes fadeInOut {
+          0%,
+          100% {
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+        }
+      `}</style>
+    </div>
+  )
+}
 const LoadSpinner = () => {
   return (
     <svg
@@ -30,9 +71,15 @@ const LoadSpinner = () => {
     </svg>
   )
 }
-const LoadSkeleton = () => {
+const LoadSkeleton = ({ progress }: { progress: number }) => {
   return (
     <div>
+      <div style={{ borderRadius: '2em' }}>
+        <div style={{ width: '100%', backgroundColor: '#ccc' }}>
+          <div style={{ width: `${progress}%`, backgroundColor: 'blue', height: '20px' }} />
+        </div>
+        {/* Render your monitor data here */}
+      </div>
       <Skeleton className='w-[300px] h-[20px] rounded-full mb-3' />
       <Skeleton className='w-[400px] h-[20px] rounded-full mb-3' />
       <Skeleton className='w-[200px] h-[20px] rounded-full mb-3' />

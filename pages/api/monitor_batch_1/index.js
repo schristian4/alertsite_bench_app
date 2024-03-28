@@ -11,7 +11,7 @@ async function get_monitor_data(id, rdate) {
   let requestDate = `&start_date=${startTimestamp}&end_date=${endTimestamp}`
 
   const monitorURL = `${process.env.NEXT_PUBLIC_ALERT_URL}?devices=${id}${requestDate}&api_version=2&format=json`
-
+  console.log('monitorURL', monitorURL)
   const getMonitorData = await fetch(monitorURL, {
     method: 'GET',
     headers: {

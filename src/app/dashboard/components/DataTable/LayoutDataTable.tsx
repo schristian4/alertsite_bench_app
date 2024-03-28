@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import DataTable from './DataTable'
 
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { createParameterArray } from '@/utils/createParameterArray'
 import { getPercentage } from '@/utils/getPercentage'
 import { nestGroupsBy } from '@/utils/groupFunctions'
@@ -199,16 +199,16 @@ export default function LayoutDataTable({
                     theme === 'light' ? 'text-blue-400' : 'text-blue-200'
                   } text-xs pl-3 font-light`}
                 >
-                  Last entry delay of about 1-2 minutes&nbsp;
+                  Last entry delay of about 1-2 hours&nbsp;
                 </span>
               </Button>
             </TooltipTrigger>
-            {/* <TooltipContent>
-              <p>Upcoming Features:</p>
-              <p>&nbsp;&nbsp;Api data is populated in batch requests </p>
-              <p>&nbsp;&nbsp;is to larger and its limits are </p>
-              <p>&nbsp;&nbsp;defined by the host server 🙁</p>
-            </TooltipContent> */}
+            <TooltipContent>
+              <p>Delay notice:</p>
+              <p>&nbsp;&nbsp;Api data is populated in batch requests. </p>
+              <p>&nbsp;&nbsp;1 hour delay due to funding limitations. </p>
+              {/* <p>&nbsp;&nbsp;defined by the host server 🙁</p> */}
+            </TooltipContent>
           </Tooltip>
         </TooltipProvider>
 
@@ -232,11 +232,11 @@ export default function LayoutDataTable({
           </div>
           <Button
             onClick={handleRerender}
-            className='relative group rounded-lg border w-12 h-12 border-transparent ml-2 transition-colors hover:border-gray-300  '
+            className='relative group rounded-lg border w-12 h-[2.85rem] border-transparent ml-2 transition-colors hover:border-gray-300  '
           >
             <span className='animate-ping absolute inline-flex left-3 top-3 h-6 w-6 rounded-lg bg-sky-100 opacity-10'></span>
             <span
-              className='absolute inline-flex top-0 left-0  px-4 py-3 transition-transform hover:rotate-[400deg] motion-reduce:transform-none duration-300'
+              className='absolute inline-flex top-0 left-[-1px] px-3 py-3 transition-transform hover:rotate-[400deg] motion-reduce:transform-none duration-300'
               style={{ fontSize: 29 }}
             >
               &#10227;

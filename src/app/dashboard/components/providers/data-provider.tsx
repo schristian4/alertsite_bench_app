@@ -9,6 +9,7 @@ type DataProviderState = {
   loading: true | false
   monitorData: any[]
   rerender: Function
+  progress: number
 }
 
 type MonitorDataShape = {
@@ -19,6 +20,7 @@ const initialState: DataProviderState = {
   loading: true,
   monitorData: [],
   rerender: () => {},
+  progress: 0,
 }
 function concatArraysRemoveDuplicates(...arrays: any[]) {
   const combinedArray = [].concat(...arrays)
@@ -44,6 +46,7 @@ export function DataProvider({ children }: DataProviderProps) {
 
   const [loadingState, setLoadingState] = useState<boolean>(true)
   const [monitorData, setMonitorData] = useState<any[]>([])
+  const [progress, setProgress] = useState<number>(0)
   const [error, setError] = useState<Error | null>(null)
   const [count, setCount] = useState(undefined)
 
@@ -52,13 +55,29 @@ export function DataProvider({ children }: DataProviderProps) {
   }
 
   async function getMonitorData() {
+    setProgress(0)
+    // setLoadingState(true)
+
     try {
-      const monitorData = await Promise.all(
-        batch_urls.map(async (url) => {
-          const resp = await fetch(url)
-          return resp.json()
+      const promises = batch_urls.map(async (url, index) => {
+        const resp = await fetch(url)
+        const data = await resp.json()
+
+        // Update progress after each fetch completes
+        setProgress((currentProgress) => {
+          const newProgress = currentProgress + (1 / batch_urls.length) * 100
+          return Math.min(newProgress, 100) // Ensure progress doesn't exceed 100%
         })
-      )
+
+        return data
+      })
+      const monitorData = await Promise.all(promises)
+      // const monitorData = await Promise.all(
+      //   batch_urls.map(async (url) => {
+      //     const resp = await fetch(url)
+      //     return resp.json()
+      //   })
+      // )
       const data = concatArraysRemoveDuplicates(...monitorData)
       setMonitorData(data)
       setLoadingState(false)
@@ -85,6 +104,7 @@ export function DataProvider({ children }: DataProviderProps) {
     loading: loadingState,
     monitorData: monitorData,
     rerender: rerender,
+    progress: progress,
   }
   return <DataProviderContext.Provider value={value}>{children}</DataProviderContext.Provider>
 }

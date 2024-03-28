@@ -14,17 +14,17 @@ export const monitorIDs = [
 
 export const batch_urls = [
   '/api/monitor_batch_0',
-  '/api/monitor_batch_1',
-  '/api/monitor_batch_2',
-  '/api/monitor_batch_3',
-  '/api/monitor_batch_4',
-  '/api/monitor_batch_5',
-  '/api/monitor_batch_6',
-  '/api/monitor_batch_7',
-  '/api/monitor_batch_8',
-  '/api/monitor_batch_9',
-  '/api/monitor_batch_10',
-  '/api/monitor_batch_11',
+  // '/api/monitor_batch_1',
+  // '/api/monitor_batch_2',
+  // '/api/monitor_batch_3',
+  // '/api/monitor_batch_4',
+  // '/api/monitor_batch_5',
+  // '/api/monitor_batch_6',
+  // '/api/monitor_batch_7',
+  // '/api/monitor_batch_8',
+  // '/api/monitor_batch_9',
+  // '/api/monitor_batch_10',
+  // '/api/monitor_batch_11',
 ]
 
 const plainText = `${process.env.NEXT_PUBLIC_ALERT_USERNAME}:${process.env.NEXT_PUBLIC_ALERT_PASSWORD}`
@@ -42,9 +42,11 @@ export function generate_batch_timestamp(startDifference) {
   return timestamps[0]
 }
 
-export function generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals) {
+export function generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals, offsetMinutes) {
   let timestamps = []
+  //offset moment end by the offsetMinutes
   let momentEnd = moment().tz('America/New_York') // Current timestamp in Eastern Time
+  momentEnd.subtract(offsetMinutes, 'minutes')
 
   for (let i = 0; i < numberOfIntervals; i++) {
     let endTimestamp = momentEnd.format('YYYY-MM-DD+HH:mm:ss')
@@ -57,9 +59,10 @@ export function generateBackwardTimestampPairs(intervalMinutes, numberOfInterval
 }
 
 //Generate timestamp pairs for the last 45 minutes
-const intervalMinutes = 3 // Interval of 3 minutes
+const intervalMinutes = 5 // Interval of 5 minutes
 const numberOfIntervals = 12 // Number of intervals
-const timestampPairs = generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals)
+const offsetMinutes = 60 // Offset in minutes
+const timestampPairs = generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals, offsetMinutes)
 
 export { timestampPairs }
 

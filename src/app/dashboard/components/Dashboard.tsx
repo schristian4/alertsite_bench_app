@@ -20,7 +20,7 @@ type AccountShape = {
 }
 
 function Dashboard({ className, ...props }: CardProps) {
-  const { monitorData, rerender } = React.useContext(DataProviderContext)
+  const { monitorData, rerender, progress } = React.useContext(DataProviderContext)
   // const [userInput, setUserInput] = React.useState<AccountShape>({
   //   username: '',
   //   password: '',
@@ -58,7 +58,7 @@ function Dashboard({ className, ...props }: CardProps) {
               setUserInput={setUserInput}
               userInput={userInput}
             /> */}
-            <LoadingWrapper isLoading={isDataLoading} loadingType='spinner'>
+            <LoadingWrapper isLoading={isDataLoading} loadingType='spinner' progress={progress}>
               {/* <></> */}
               <LocationDropDown
                 dataObject={monitorData}
@@ -74,7 +74,7 @@ function Dashboard({ className, ...props }: CardProps) {
           </div>
         </CardHeader>
         <CardContent className='grid gap-4'>
-          <LoadingWrapper isLoading={isDataLoading} loadingType='skeleton'>
+          <LoadingWrapper isLoading={isDataLoading} loadingType='skeleton' progress={progress}>
             <IncidentBanner dataObject={monitorData} setLocationSelection={setLocationSelection} />
             <WidgetBanner dataObject={monitorData} locationSelection={selectedLocation} />
             <LayoutDataTable
