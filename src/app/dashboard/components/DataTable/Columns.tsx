@@ -1,7 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from './DataColumnHeader'
-import { Button } from '../../../../components/ui/button'
-import { ArrowUpDown } from 'lucide-react'
 
 export type MonitorDataShape = {
   status: JSX.Element

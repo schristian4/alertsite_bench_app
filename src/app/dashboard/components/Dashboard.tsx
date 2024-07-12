@@ -21,27 +21,14 @@ type AccountShape = {
 
 function Dashboard({ className, ...props }: CardProps) {
   const { monitorData, rerender, progress } = React.useContext(DataProviderContext)
-  // const [userInput, setUserInput] = React.useState<AccountShape>({
-  //   username: '',
-  //   password: '',
-  // })
+
   const [selectedLocation, setLocationSelection] = React.useState('20')
 
   const handleDropDownMenuChange = (value: string) => {
     setLocationSelection(value)
   }
-  // function handleSubmitParams(value: any) {}
-
-  // const setInitialOptionValue: Function = React.useCallback(() => {
-  //   const defaultOption = nestGroupsBy(monitorData, ['obj_location', 'device_descrip'])
-  //   setLocationSelection(Object.keys(defaultOption)[0])
-  // }, [monitorData])
 
   const isDataLoading = monitorData.length !== 0
-
-  // useEffect(() => {
-  //   // setInitialOptionValue()
-  // }, [setInitialOptionValue])
 
   return (
     <div className='main-container '>
@@ -49,7 +36,7 @@ function Dashboard({ className, ...props }: CardProps) {
         <CardHeader className={'flex flex-row justify-between items-center flex-wrap'}>
           <CardTitle className={'card-title'}>AlertSite Technical Benchmark 2.0</CardTitle>
           <div className={'flex flex-row gap-5 items-center '}>
-            {/* 
+            {/*
             // TODO: Implement this feature
             - Add login feature for more data.
             */}
@@ -66,7 +53,7 @@ function Dashboard({ className, ...props }: CardProps) {
                 dropDownPosition={selectedLocation}
               />
             </LoadingWrapper>
-            {/* 
+            {/*
             // TODO: Implement this feature
             - Add timestamp post to server for more data.
              */}

@@ -56,7 +56,6 @@ export function DataProvider({ children }: DataProviderProps) {
 
   async function getMonitorData() {
     setProgress(0)
-    // setLoadingState(true)
 
     try {
       const promises = batch_urls.map(async (url, index) => {
@@ -72,12 +71,7 @@ export function DataProvider({ children }: DataProviderProps) {
         return data
       })
       const monitorData = await Promise.all(promises)
-      // const monitorData = await Promise.all(
-      //   batch_urls.map(async (url) => {
-      //     const resp = await fetch(url)
-      //     return resp.json()
-      //   })
-      // )
+
       const data = concatArraysRemoveDuplicates(...monitorData)
       setMonitorData(data)
       setLoadingState(false)

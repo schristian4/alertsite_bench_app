@@ -90,11 +90,14 @@ export default function LayoutDataTable({
       minibar__fill = 'minibar__fill red'
     }
     percentage = percentage + '%'
+    let StatusContent = status === '0' ? null : `Error Status: ${status}`
+
     return (
       <div key={index} className={minibar__bar}>
         <span className='minibar__tooltip'>
-          <div>Date: {moment(inputDate).local().format('YYYY-MM-DD hh:mm:ss A')}</div>
-          <div>Response Time: {Number(inputTime).toFixed(3)}</div>
+          <p>Date: {moment(inputDate).local().format('YYYY-MM-DD hh:mm:ss A')}</p>
+          <p>Response Time: {Number(inputTime).toFixed(3)}</p>
+          <p>{StatusContent}</p>
         </span>
         <div className={minibar__fill + theme_mode} style={{ height: percentage }}></div>
       </div>

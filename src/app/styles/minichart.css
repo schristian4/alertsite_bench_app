@@ -56,6 +56,9 @@
   z-index: 50;
   box-shadow: black 0px 20px 30px -10px;
 }
+.minibar__tooltip > p {
+  padding-bottom: 10px;
+}
 
 .minibar--mini {
   height: 50px;

@@ -5,12 +5,23 @@ export const batch_urls: string[] = [
   '/api/monitor_batch_3',
   '/api/monitor_batch_4',
   '/api/monitor_batch_5',
-  '/api/monitor_batch_6',
-  '/api/monitor_batch_7',
-  '/api/monitor_batch_8',
-  '/api/monitor_batch_9',
-  '/api/monitor_batch_10',
-  '/api/monitor_batch_11',
+  // '/api/monitor_batch_6',
+  // '/api/monitor_batch_7',
+  // '/api/monitor_batch_8',
+  // '/api/monitor_batch_9',
+  // '/api/monitor_batch_10',
+  // '/api/monitor_batch_11',
+]
+export const monitorIDs = [
+  '613072',
+  '606458',
+  '613080',
+  '610382',
+  '613088',
+  '610378',
+  '613070',
+  '613076',
+  '610380',
 ]
 export const shortLocationIds = ['10', '15', '18', '19', '20', '22', '25', '28', '30', '31', '33']
 export const LocationIds = [

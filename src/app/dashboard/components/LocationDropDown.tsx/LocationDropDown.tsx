@@ -8,13 +8,11 @@ import {
   DropdownMenuTrigger,
 } from '../../../../components/ui/dropdown-menu'
 
-import { nestGroupsBy } from '@/utils/groupFunctions'
+import { SortedLocationNameIds } from '@/lib/constants'
+import React, { useCallback, useEffect } from 'react'
 import { Button } from '../../../../components/ui/button'
 import { ScrollArea } from '../../../../components/ui/scroll-area'
 import { cityDataType } from '../shapes'
-import { useCallback, useEffect } from 'react'
-import React from 'react'
-import { SortedLocationNameIds } from '@/lib/constants'
 export function LocationDropDown({
   dataObject,
   dropDownPosition,
@@ -24,16 +22,13 @@ export function LocationDropDown({
   handleDropDownMenuChange: (value: any) => void
   dropDownPosition: any
 }) {
-  const filterArrayByLocationId = useCallback(
-    (data: any, locationId: any) => {
-      let x = data.filter((item: any) => item[0] === locationId)[0]
-      if (!x) {
-        x = ['No Location', 'No Location']
-      }
-      return { location_name: x[1], location_id: x[0] }
-    },
-    [dropDownPosition]
-  )
+  const filterArrayByLocationId = useCallback((data: any, locationId: any) => {
+    let x = data.filter((item: any) => item[0] === locationId)[0]
+    if (!x) {
+      x = ['No Location', 'No Location']
+    }
+    return { location_name: x[1], location_id: x[0] }
+  }, [])
 
   const { location_name, location_id } = filterArrayByLocationId(SortedLocationNameIds, dropDownPosition)
   const CreateDropDownItemList = () => {

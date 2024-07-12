@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button } from '../../../../components/ui/button'
 import {
   Dialog,
@@ -11,7 +12,6 @@ import {
 import { Input } from '../../../../components/ui/input'
 import { Label } from '../../../../components/ui/label'
 import { DropDownRdates } from './DropDownRdates'
-import React from 'react'
 
 export function DialogLoginBox({
   handleSubmitParams,
@@ -74,7 +74,6 @@ export function DialogLoginBox({
             <Input
               id='password'
               placeholder={userInput.password}
-              // value=
               className='col-span-3'
               onChange={handleChange}
             />

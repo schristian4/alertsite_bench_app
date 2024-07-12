@@ -24,11 +24,13 @@ async function get_monitor_data(id, rdate) {
     throw new Error('Get monitor data failed')
   }
 
-  return await getMonitorData.json()
+  return await getMonitorData
 }
 
 export default async function handler(req, res) {
-  const monitorDataPromises = monitorIDs.map((id) => get_monitor_data(id, 'LastOneHour'))
+  const monitorDataPromises = monitorIDs.map((id) =>
+    get_monitor_data(id, 'LastOneHour').then((data) => data.json())
+  )
   const monitorData = await Promise.all(monitorDataPromises)
 
   const data = await monitorData.flat(1)

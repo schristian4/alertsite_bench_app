@@ -1,14 +1,15 @@
 import { generate_batch_timestamp, timestampPairs } from '../methods'
-const monitorIDs = ['613072', '606458', '613080', '610382', '613088', '610378', '613070', '613076', '610380']
-
+import { monitorIDs } from '@/lib/constants'
 const plainText = `${process.env.NEXT_PUBLIC_ALERT_USERNAME}:${process.env.NEXT_PUBLIC_ALERT_PASSWORD}`
 const BufferSession = Buffer.from(plainText).toString('base64')
 const BufferText = `Basic ` + BufferSession
 
-async function get_monitor_data(id, rdate) {
+async function get_monitor_data(id) {
+  debugger
   const { startTimestamp, endTimestamp } = timestampPairs[0]
-
   let requestDate = `&start_date=${startTimestamp}&end_date=${endTimestamp}`
+
+  console.log('requestDate', requestDate)
 
   const monitorURL = `${process.env.NEXT_PUBLIC_ALERT_URL}?devices=${id}${requestDate}&api_version=2&format=json`
 
@@ -24,11 +25,13 @@ async function get_monitor_data(id, rdate) {
     throw new Error('Get monitor data failed')
   }
 
-  return await getMonitorData.json()
+  return getMonitorData
 }
 
 export default async function handler(req, res) {
-  const monitorDataPromises = monitorIDs.map((id) => get_monitor_data(id, 'LastOneHour'))
+  const monitorDataPromises = monitorIDs.map((id) =>
+    get_monitor_data(id, 'LastOneHour').then((data) => data.json())
+  )
   const monitorData = await Promise.all(monitorDataPromises)
 
   const data = await monitorData.flat(1)
