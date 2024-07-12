@@ -57,7 +57,7 @@
   box-shadow: black 0px 20px 30px -10px;
 }
 .minibar__tooltip > p {
-  padding-bottom: 10px;
+  padding: 3.5px;
 }
 
 .minibar--mini {

@@ -97,7 +97,7 @@ export default function LayoutDataTable({
         <span className='minibar__tooltip'>
           <p>Date: {moment(inputDate).local().format('YYYY-MM-DD hh:mm:ss A')}</p>
           <p>Response Time: {Number(inputTime).toFixed(3)}</p>
-          <p>{StatusContent}</p>
+          {StatusContent && <p className='text-red-700 font-extrabold'>{StatusContent}</p>}
         </span>
         <div className={minibar__fill + theme_mode} style={{ height: percentage }}></div>
       </div>
