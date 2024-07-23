@@ -1,5 +1,5 @@
 import moment from 'moment-timezone'
-
+import { batch_url_count } from '@/lib/constants'
 const plainText = `${process.env.NEXT_PUBLIC_ALERT_USERNAME}:${process.env.NEXT_PUBLIC_ALERT_PASSWORD}`
 const BufferSession = Buffer.from(plainText).toString('base64')
 export const bufferSessionOutput = `Basic ` + BufferSession
@@ -31,9 +31,9 @@ export function generateBackwardTimestampPairs(intervalMinutes, numberOfInterval
   return timestamps
 }
 
-//Generate timestamp pairs for the last 45 minutes
+//Generate timestamp pairs for the last 50 minutes
 const intervalMinutes = 5 // Interval of 5 minutes
-const numberOfIntervals = 10 // Number of intervals
+const numberOfIntervals = batch_url_count // Number of intervals
 const offsetMinutes = 60 // Offset in minutes
 const timestampPairs = generateBackwardTimestampPairs(intervalMinutes, numberOfIntervals, offsetMinutes)
 

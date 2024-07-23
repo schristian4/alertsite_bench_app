@@ -1,5 +1,5 @@
 'use client'
-import Dashboard from './dashboard/components/Dashboard'
+import Dashboard from './dashboard/Dashboard'
 import { DataProvider } from './dashboard/components/providers/data-provider'
 import { ThemeProvider } from './dashboard/components/providers/theme-provider'
 import { SpeedInsights } from '@vercel/speed-insights/next'

@@ -1,6 +1,5 @@
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useState } from 'react'
 
 export default function LoadingWrapper({
   children,

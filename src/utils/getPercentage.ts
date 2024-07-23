@@ -1,5 +1,4 @@
-
-export function getPercentage(paramArray: PercentageDefinition): number{
+export function getPercentage(paramArray: PercentageDefinition): number {
   let errorCounter = 0
   for (let i = 0; i < paramArray.length; i++) {
     if (parseInt(paramArray[i]) !== 0) {

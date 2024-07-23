@@ -6,22 +6,16 @@ The AlertSite Bench App is a comprehensive tool designed to provide users with a
 
 ## Project Structure
 
-- **/pages/api/**: Contains the API-related code.
-
-  - **monitor_batch**: Contains the implementation for the `monitor_batch` APIs.
-
 - **/src**: Contains the source code for the project.
-
-  - **/app/dashboard**: Contains the dashboard components.
-    - **/components**: Contains the dashboard components.
-    - **/hooks**: Contains the dashboard hooks.
-    - **/providers**: Contains the dashboard providers.
+  - **/api**: Houses the API-related code.
+    - **monitor_batch**: Contains the implementation for the `monitor_batch` APIs.
   - **/models**: Includes data models and schema definitions.
-  - **/components/ui**: Contains the ShadCDN UI components.
   - **/utils**: Utility functions and helpers.
-  - **/lib**: Contains test cases for various modules.
-
+- **/tests**: Contains test cases for various modules.
+- **/docs**: Project documentation and guides.
+- **GUIDE.md**: Comprehensive guide for users.
 - **README.md**: Overview of the project (this file).
+- **requirements.txt**: List of dependencies required for the project.
 
 ## Getting Started
 

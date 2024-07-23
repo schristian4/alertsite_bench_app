@@ -2,7 +2,8 @@ import { nestGroupsBy } from '@/utils/groupFunctions'
 import moment from 'moment-timezone'
 import { Card, CardDescription } from '../../../../components/ui/card'
 import { cityDataType } from '../shapes'
-//Function to Count the number of errors at each Location
+
+//Component to Count the number of errors at each Location
 export const WidgetBanner = ({
   dataObject,
   locationSelection,
@@ -18,7 +19,9 @@ export const WidgetBanner = ({
   if (siteObject === undefined) {
     return null
   }
+
   const majorSiteObjectTarget = siteObject[Number(locationSelection)]
+
   if (majorSiteObjectTarget === undefined) {
     return null
   }
@@ -96,7 +99,7 @@ export const WidgetBanner = ({
         <div className='grid row-span-3 w-full m-5 gap-3 font-medium'>
           <p className='flex flex-start text-sm'>Average Response Time</p>
           <div className='flex justify-center text-4xl' style={{ alignItems: 'center' }}>
-            {AverageRespTime}secs
+            {AverageRespTime}s
           </div>
           <CardDescription className='flex  justify-center ' style={{ alignItems: 'center' }}>
             <span>over the last&nbsp;</span>

@@ -9,6 +9,7 @@ import { nestGroupsBy } from '@/utils/groupFunctions'
 import moment from 'moment'
 import { ThemeProviderContext } from '../providers/theme-provider'
 import { Columns } from './Columns'
+import './circle.css'
 export type UserDataObject = {
   status: JSX.Element
   major_site: string
@@ -47,6 +48,7 @@ const IconStatus = (avail: number) => {
     return <></>
   }
 }
+
 export default function LayoutDataTable({
   dataObject,
   locationSelection,
@@ -57,6 +59,7 @@ export default function LayoutDataTable({
   rerender: Function
 }) {
   const { theme } = useContext(ThemeProviderContext)
+
   const [showText, setShowText] = useState(false)
   if (dataObject === undefined) {
     return null
@@ -71,7 +74,6 @@ export default function LayoutDataTable({
     return null
   }
 
-  // console.log('majorSiteObjectTarget', majorSiteObjectTarget)
   const majorSiteNameArray: string[] = Object.keys(majorSiteObjectTarget)
 
   const gridEntry = (
@@ -94,7 +96,14 @@ export default function LayoutDataTable({
 
     return (
       <div key={index} className={minibar__bar}>
-        <span className='minibar__tooltip'>
+        <span
+          className='minibar__tooltip'
+          style={{
+            backgroundColor: theme == 'light' ? '#eeeef4' : '#1e2840',
+            borderRadius: 5,
+            color: theme == 'light' ? '#96a0c0;' : '#eeeef4',
+          }}
+        >
           <p>Date: {moment(inputDate).local().format('YYYY-MM-DD hh:mm:ss A')}</p>
           <p>Response Time: {Number(inputTime).toFixed(3)}</p>
           {StatusContent && <p className='text-red-700 font-extrabold'>{StatusContent}</p>}
@@ -110,8 +119,10 @@ export default function LayoutDataTable({
     responseTimeArray: string | string[]
   ): {} => {
     let tempArray: any[] = []
+
     tempArray.push(timestampArray, responseTimeArray, statusArray)
     let inputSelection, heightPercentage
+
     let x = tempArray[0].map((item: any, index: number) => {
       if (tempArray[1].length > 1) {
         inputSelection = tempArray[1][index]
@@ -131,33 +142,21 @@ export default function LayoutDataTable({
     })
     return x
   }
+
   const updateDataObjectNew = majorSiteNameArray.map((item: any, index: number) => {
-    let avail = getPercentage(
-      createParameterArray(Number(locationSelection), 'status', majorSiteNameArray[index], siteObject)
-    )
+    let avail = getPercentage(createParameterArray(Number(locationSelection), 'status', item, siteObject))
+
     const RenderIcon = IconStatus(avail)
-    let timestamp_output = createParameterArray(
-      Number(locationSelection),
-      'dt_status',
-      majorSiteNameArray[index],
-      siteObject
-    )
-    let status_output: any = createParameterArray(
-      Number(locationSelection),
-      'status',
-      majorSiteNameArray[index],
-      siteObject
-    )
-    let resptime_output: any = createParameterArray(
-      Number(locationSelection),
-      'resptime',
-      majorSiteNameArray[index],
-      siteObject
-    )
+
+    let timestamp_output = createParameterArray(Number(locationSelection), 'dt_status', item, siteObject)
+    let status_output: any = createParameterArray(Number(locationSelection), 'status', item, siteObject)
+
+    let resptime_output: any = createParameterArray(Number(locationSelection), 'resptime', item, siteObject)
     let tdResp: any = createResponseTimeGrid(timestamp_output, status_output, resptime_output)
+
     const RenderResponseTimeGrid = () => {
       return (
-        <React.Fragment key={index}>
+        <React.Fragment key={'tdResp' + index}>
           {tdResp.map((item: any, td_index: number) => {
             return <React.Fragment key={td_index}>{item}</React.Fragment>
           })}
@@ -171,6 +170,7 @@ export default function LayoutDataTable({
       rMetric: <RenderResponseTimeGrid />,
     }
   }, [])
+
   function handleRerender() {
     // Show text
     setShowText(true)
@@ -184,26 +184,32 @@ export default function LayoutDataTable({
   return (
     <div className='mx-auto w-full'>
       <DataTable columns={Columns} data={updateDataObjectNew} />
-      <div className='flex flex-row flex-wrap justify-between'>
+      <div className='flex flex-row flex-wrap justify-between align-bottom mt-3'>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
               <Button
                 variant='outline'
-                className='flex justify-center flex-col mt-[10.5px] pt-2 pl-2 border-none'
-                style={{ alignItems: 'flex-start' }}
+                className='flex justify-center align-middle flex-col border-none w-[270px]'
               >
                 <span>
-                  <span>Api data is limited going back&nbsp;</span>
-                  <span className={`${theme === 'light' ? 'text-blue-400' : 'text-blue-200'} `}>1 hour</span>
+                  <span className='text-sm text-center'>Api data is limited going back&nbsp;</span>
+                  <span className={`${theme === 'light' ? 'text-blue-400' : 'text-blue-200'} text-sm`}>
+                    1 hour
+                  </span>
                 </span>
-                <span
-                  className={`${
-                    theme === 'light' ? 'text-blue-400' : 'text-blue-200'
-                  } text-xs pl-3 font-light`}
+                <div
+                  className='align-middle'
+                  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                 >
-                  Last entry delay of about 1-2 hours&nbsp;
-                </span>
+                  <span
+                    className={`${
+                      theme === 'light' ? 'text-blue-400' : 'text-blue-200'
+                    } text-sm font-light text-center`}
+                  >
+                    Last entry delay of about 1-2 hours&nbsp;
+                  </span>
+                </div>
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -215,35 +221,26 @@ export default function LayoutDataTable({
           </Tooltip>
         </TooltipProvider>
 
-        <div className='text-right pt-2 flex flex-row  justify-center'>
-          <div className=' flex flex-col flex-end mt-[10.5px]'>
-            <span className='text-sm font-semibold text-right '>{`Last Updated: ${moment().format(
+        <div className='text-right flex flex-row justify-end'>
+          <div className=' flex flex-col flex-end justify-end h-[50px]'>
+            <span className='text-sm  text-right '>{`Last Updated: ${moment().format(
               'MMMM Do YYYY, h:mm:ss a'
             )}`}</span>
             {!showText && (
-              <span className='text-sm font-semibold text-right text-gray-500 h-[24px]'>
-                Refresh to update table...
-              </span>
+              <span className='text-sm text-right text-gray-500 h-[24px]'>Refresh to update table...</span>
             )}
             {showText ? (
-              <span className='animate-fadeInOut text-sm font-semibold text-right text-gray-500 h-[24px]'>
+              <span className='animate-fadeInOut text-sm  text-right text-gray-500 h-[24px]'>
                 Refreshing data...
               </span>
             ) : (
               <span className='opacity-0 h-[0px]'>Click to refresh</span>
             )}
           </div>
-          <Button
-            onClick={handleRerender}
-            className='relative group rounded-lg border w-12 h-[2.85rem] border-transparent ml-2 transition-colors hover:border-gray-300  '
-          >
-            <span className='animate-ping absolute inline-flex left-3 top-3 h-6 w-6 rounded-lg bg-sky-100 opacity-10'></span>
-            <span
-              className='absolute inline-flex top-0 left-[-1px] px-3 py-3 transition-transform hover:rotate-[400deg] motion-reduce:transform-none duration-300'
-              style={{ fontSize: 29 }}
-            >
-              &#10227;
-            </span>
+          <Button onClick={handleRerender} variant={'outline'} style={{ marginLeft: 15, height: 50 }}>
+            <div className='refreshButtonWrapper'>
+              <span>Refresh</span>
+            </div>
           </Button>
         </div>
       </div>

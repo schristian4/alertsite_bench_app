@@ -34,8 +34,8 @@ export const Columns: ColumnDef<MonitorDataShape>[] = [
     footer: (props) => props.column.id,
   },
   {
-    header: 'Availability',
     accessorKey: 'avail',
+    header: 'Availability',
     cell: ({ row }) => <div className='lowercase'>{row.getValue('avail')}</div>,
     footer: (props) => props.column.id,
   },

@@ -12,13 +12,10 @@ import { SortedLocationNameIds } from '@/lib/constants'
 import React, { useCallback, useEffect } from 'react'
 import { Button } from '../../../../components/ui/button'
 import { ScrollArea } from '../../../../components/ui/scroll-area'
-import { cityDataType } from '../shapes'
 export function LocationDropDown({
-  dataObject,
   dropDownPosition,
   handleDropDownMenuChange,
 }: {
-  dataObject: cityDataType[]
   handleDropDownMenuChange: (value: any) => void
   dropDownPosition: any
 }) {
