@@ -1,4 +1,4 @@
-# Alertsite Bench App
+# Alertsite Technical Benchmark v2
 
 ## Overview
 
