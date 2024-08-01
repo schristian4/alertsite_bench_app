@@ -16,7 +16,7 @@ async function fetchMonitorData(deviceId, timeRangeKey) {
   const { startTimestamp, endTimestamp } = timestampPairs[timeRangeKey]
   const dateRange = `&start_date=${startTimestamp}&end_date=${endTimestamp}`
 
-  const apiUrl = `${process.env.NEXT_PUBLIC_ALERT_URL}/C134490?devices=${deviceId}${dateRange}&api_version=2&format=json`
+  const apiUrl = `https://www.alertsite.com/report-api/detail/C134490?devices=${deviceId}${dateRange}&api_version=2&format=json`
 
   try {
     const response = await fetch(apiUrl, {

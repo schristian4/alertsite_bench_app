@@ -13,7 +13,7 @@ async function fetchMonitorData(deviceId, timeRangeKey, customer_id, authToken) 
   const { startTimestamp, endTimestamp } = timestampPairs[timeRangeKey]
   const dateRange = `&start_date=${startTimestamp}&end_date=${endTimestamp}`
   // Format API URL
-  const apiUrl = `${process.env.NEXT_PUBLIC_ALERT_URL}/${customer_id}?devices=${deviceId}${dateRange}&api_version=2&format=json`
+  const apiUrl = `https://www.alertsite.com/report-api/detail/${customer_id}?devices=${deviceId}${dateRange}&api_version=2&format=json`
 
   console.log('apiUrl', apiUrl)
   try {
