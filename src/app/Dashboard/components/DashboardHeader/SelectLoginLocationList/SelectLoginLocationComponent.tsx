@@ -1,6 +1,6 @@
 import { ScrollArea } from '../../../../../components/ui/scroll-area'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../../../../../components/ui/button'
 import {
   DropdownMenu,
@@ -14,8 +14,14 @@ import { useDataStore } from '@/app/redux/useDataStore'
 import { SelectLoginDevicesButton } from './SelectLoginDevicesButton'
 
 export function SelectLoginLocationComponent() {
-  const { loginLoading, isFetchError, userDeviceList, handleSelectedDeviceList, loginErrorStatus } =
-    useDataStore()
+  const {
+    loginLoading,
+    loginStatus,
+    isFetchError,
+    userDeviceList,
+    handleSelectedDeviceList,
+    loginErrorStatus,
+  } = useDataStore()
   const [selectedDeviceArray, setSelectedDeviceArray] = useState<string[]>([])
 
   // Update the selectedDevice List on submit button click
@@ -46,6 +52,12 @@ export function SelectLoginLocationComponent() {
     return output_name
   }
 
+  useEffect(() => {
+    if (loginStatus === false) {
+      console.log('Successfully logged out')
+      handleClearSelection()
+    }
+  }, [loginStatus])
   // Check if the userDeviceList is empty
   const isUserDeviceListEmpty = userDeviceList !== undefined && userDeviceList.length !== 0
   return (
