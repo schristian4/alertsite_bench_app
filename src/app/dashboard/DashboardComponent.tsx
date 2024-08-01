@@ -7,12 +7,10 @@ import DashboardBody from './components/DashboardBody/DashboardBody'
 import DashboardFooter from './components/DashboardFooter/DashboardFooter'
 import { DashboardHeader } from './components/DashboardHeader/DashboardHeader'
 
-type CardProps = React.ComponentProps<typeof Card>
-
-export default function DashboardComponent({ className, ...props }: CardProps) {
+export default function DashboardComponent() {
   return (
     <div className='main-container '>
-      <Card className={cn('w-[100%]', className)} {...props}>
+      <Card className='w-[100%]'>
         <DashboardHeader />
         <DashboardBody />
         <DashboardFooter />
