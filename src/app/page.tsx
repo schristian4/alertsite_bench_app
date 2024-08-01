@@ -8,9 +8,9 @@ import DashboardPage from './DashboardPage'
 export default function Home() {
   const { getMonitorData } = useDataStore()
 
-  // useEffect(() => {
-  //   getMonitorData()
-  // }, [getMonitorData])
+  useEffect(() => {
+    getMonitorData()
+  }, [getMonitorData])
   return (
     <main className='flex min-h-screen flex-col items-center ph-24 m-12 adjust-mobile'>
       <ThemeProvider>
