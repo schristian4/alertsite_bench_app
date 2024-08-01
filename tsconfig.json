@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+
     "plugins": [
       {
         "name": "next"
@@ -29,7 +30,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "jest.config.js",
-    "src/app/Dashboard/components/contexts/ThemeContexts",
+    "src/app/Dashboard/components/contexts/ThemeContexts.tsx",
     "src/app/redux/useDataStore.js",
     "src/hooks/useFetchData.js"
   ],

@@ -3,7 +3,7 @@ import { createParameterArray } from '@/utils/createParameterArray'
 import { nestGroupsBy } from '@/utils/groupFunctions'
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../../../../../components/ui/card'
-import { useTheme } from '../../../contexts/ThemeContexts'
+import { useTheme } from '@/app/Dashboard/components/contexts/ThemeContexts'
 
 //Function to Count the number of errors at each Location
 function counter(targetArray: any[]): number {
