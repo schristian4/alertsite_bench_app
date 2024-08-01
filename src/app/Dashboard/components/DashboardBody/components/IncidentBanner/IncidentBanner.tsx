@@ -78,7 +78,7 @@ export const IncidentBanner = () => {
 
   const IncidentBannerContent = UpdateIncidentBanner()
   return (
-    <Card className=' justify-center'>
+    <Card className='justify-center'>
       <CardHeader>
         <CardTitle className='flex flex-start'>Incident History Log</CardTitle>
       </CardHeader>
@@ -96,7 +96,7 @@ export const IncidentBanner = () => {
 const CreateAlertItem = (locationName: string, count: number, index: number, location_id: number) => {
   const { theme } = useTheme()
 
-  const { monitorData, setSelectedLocation } = useDataStore()
+  const { setSelectedLocation } = useDataStore()
 
   const lightToColors = ['to-orange-200', 'to-yellow-300', 'to-orange-400', 'to-yellow-300', 'to-orange-400']
   const darkToColors = ['to-blue-900', 'to-purple-900', 'to-blue-900', 'to-purple-900', 'to-blue-900']

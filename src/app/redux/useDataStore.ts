@@ -15,18 +15,13 @@ const createMonitorDataSlice: StateCreator<MonitorDataState> = (set, get) => ({
   monitorData: [],
   isLoading: true,
   loadingProgress: 0,
-  // Error States
-
   error: {
     hasError: false,
     message: '',
     statusCode: 0,
   },
-
-  lastFetchTimestamp: moment().format('YYYY-MM-DD HH:mm:ss'), // moment().format('YYYY-MM-DD HH:mm:ss'),
-  // Rerender Monitor Data
+  lastFetchTimestamp: moment().format('YYYY-MM-DD HH:mm:ss'),
   refreshMonitorData: () => {
-    // set({ progress: 0, errorStatus: false, errorMessage: '', errorStatusCode: 0 })
     get().getMonitorData()
   },
   getMonitorData: async () => {
@@ -36,7 +31,7 @@ const createMonitorDataSlice: StateCreator<MonitorDataState> = (set, get) => ({
       set({ isLoading: false, loadingProgress: 100 })
       return
     }
-    set({ isLoading: true, loadingProgress: 0, error: { hasError: false, message: '', statusCode: 0 } })
+    set({ error: { hasError: false, message: '', statusCode: 0 } })
 
     try {
       const promises = Array.from({ length: BATCH_URL_COUNT }, (_, i) =>
