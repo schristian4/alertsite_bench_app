@@ -14,7 +14,8 @@ import { useDataStore } from '@/app/redux/useDataStore'
 import { SelectLoginDevicesButton } from './SelectLoginDevicesButton'
 
 export function SelectLoginLocationComponent() {
-  const { loginLoading, userDeviceList, handleSelectedDeviceList, loginErrorStatus } = useDataStore()
+  const { loginLoading, isFetchError, userDeviceList, handleSelectedDeviceList, loginErrorStatus } =
+    useDataStore()
   const [selectedDeviceArray, setSelectedDeviceArray] = useState<string[]>([])
 
   // Update the selectedDevice List on submit button click
@@ -56,8 +57,10 @@ export function SelectLoginLocationComponent() {
             className='w-[200px]'
             disabled={!isUserDeviceListEmpty}
           >
-            {loginErrorStatus
-              ? 'Failed to login'
+            {isFetchError && !loginErrorStatus && 'Failed to Get Monitors'}
+            {loginErrorStatus && !isFetchError && 'Failed to login'}
+            {isFetchError || loginErrorStatus
+              ? null
               : loginLoading
               ? 'Loading...'
               : isUserDeviceListEmpty

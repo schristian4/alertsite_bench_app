@@ -116,6 +116,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
   }, 300),
 
   // Login Fetch Monitor States
+  isFetchError: false,
   isLoginFetchMonitorLoading: false,
   loginFetchMonitorProgress: 0,
   loginMonitorData: [],
@@ -178,7 +179,12 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
     }
   },
   fetchMonitorData: async (selectedDeviceList: string[]) => {
-    set({ isLoginFetchMonitorLoading: true, loginFetchMonitorProgress: 0, loginLoading: true })
+    set({
+      isFetchError: false,
+      isLoginFetchMonitorLoading: true,
+      loginFetchMonitorProgress: 0,
+      loginLoading: true,
+    })
     const { email, password, customerNum } = get().userInput
     try {
       const promises = Array.from({ length: 6 }, (_, i) =>
@@ -226,7 +232,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
       set({
         loginLoading: false,
         isLoginFetchMonitorLoading: false,
-        loginErrorStatus: true,
+        isFetchError: true,
         loginErrorStatusCode: error.status,
         loginErrorMessage: error.message,
       })
@@ -298,7 +304,7 @@ interface LoginStoreStates {
     customerNum: string
   }
   handleUserInput: (e: any) => void // Debounced function
-
+  isFetchError: boolean
   isLoginFetchMonitorLoading: boolean
   loginFetchMonitorProgress: number
   loginMonitorData: MonitorDataShape[]
