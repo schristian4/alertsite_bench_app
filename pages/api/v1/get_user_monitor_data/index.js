@@ -15,6 +15,7 @@ async function fetchMonitorData(deviceId, timeRangeKey, customer_id, authToken) 
   // Format API URL
   const apiUrl = `${process.env.NEXT_PUBLIC_ALERT_URL}/${customer_id}?devices=${deviceId}${dateRange}&api_version=2&format=json`
 
+  console.log('apiUrl', apiUrl)
   try {
     const response = await fetch(apiUrl, {
       method: 'GET',

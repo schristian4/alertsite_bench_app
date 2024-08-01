@@ -137,6 +137,10 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
       userDeviceList: [],
       loginMonitorData: [],
       userInput: { email: '', password: '', customerNum: '' },
+      isFetchError: false,
+      loginErrorStatus: false,
+      loginErrorStatusCode: 0,
+      loginErrorMessage: '',
     })
   },
   // Login User
@@ -162,7 +166,6 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
         userDeviceList: deviceList,
         loginLoading: false,
         loginStatus: true,
-
         loginErrorStatus: false,
         loginErrorStatusCode: 0,
         loginErrorMessage: '',
@@ -170,6 +173,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
     } catch (error: any) {
       console.error('Login User Error - @LoginUserSubmit:', error)
       set({
+        isFetchError: false,
         loginErrorStatus: true,
         loginErrorStatusCode: error.status,
         loginErrorMessage: error.message,
@@ -181,6 +185,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
   fetchMonitorData: async (selectedDeviceList: string[]) => {
     set({
       isFetchError: false,
+      loginErrorStatus: false,
       isLoginFetchMonitorLoading: true,
       loginFetchMonitorProgress: 0,
       loginLoading: true,
@@ -223,6 +228,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
         loginMonitorData: concatenatedData,
         loginLoading: false,
         isLoginFetchMonitorLoading: false,
+        isFetchError: false,
         loginErrorStatus: false,
         loginErrorStatusCode: 0,
         loginErrorMessage: '',
@@ -233,6 +239,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
         loginLoading: false,
         isLoginFetchMonitorLoading: false,
         isFetchError: true,
+        loginErrorStatus: false,
         loginErrorStatusCode: error.status,
         loginErrorMessage: error.message,
       })
