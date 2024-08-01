@@ -30,21 +30,21 @@ const createMonitorDataSlice: StateCreator<MonitorDataState> = (set, get) => ({
     get().getMonitorData()
   },
   getMonitorData: async () => {
-    set({ isLoading: true, loadingProgress: 0, error: { hasError: false, message: '', statusCode: 0 } })
-    console.log('canRerenderData' + canRerenderData(get().lastFetchTimestamp))
+    set({ isLoading: true, loadingProgress: 0 })
 
-    if (get().monitorData.length > 0 && canRerenderData(get().lastFetchTimestamp)) {
+    if (get().error.hasError === true || canRerenderData(get().lastFetchTimestamp)) {
       set({ isLoading: false, loadingProgress: 100 })
       return
     }
+    set({ isLoading: true, loadingProgress: 0, error: { hasError: false, message: '', statusCode: 0 } })
 
     try {
       const promises = Array.from({ length: BATCH_URL_COUNT }, (_, i) =>
         fetch(`/api/v1/get_monitor_data?timestampindex=${i}`)
           .then(async (resp) => {
             if (!resp.ok) {
-              const errorBody = await resp.text()
-              throw new Error(`HTTP error! status: ${resp.status}, body: ${errorBody}`)
+              console.log('error', resp)
+              throw new Error(`Oops! We failed to fetch from AlertSite`)
             }
             return resp.json()
           })
@@ -203,9 +203,8 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
         )
           .then(async (resp) => {
             if (!resp.ok) {
-              const errorBody = await resp.text()
               throw new Error(
-                ` Oops! We failed to fetch from AlertSite\nHTTP error! status: ${resp.status}, body: ${errorBody}`
+                ` Oops! We failed to fetch from AlertSite \n HTTP error! status: ${resp.status}`
               )
             }
             return resp.json()

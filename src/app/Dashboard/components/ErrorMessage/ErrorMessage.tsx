@@ -12,14 +12,15 @@ const ErrorMessage = () => {
   }
 
   // Split the error message into error code and error title
-  const [errorCode, errorTitle] = error.message.split(' \n ')
+  // const [errorCode, errorTitle] = error.message.split(' \n ')
 
   return (
     <div className='flex flex-col  items-center justify-center mb-16'>
       <div className='flex flex-col flex-start'>
-        <p style={{ fontSize: 124, fontWeight: 800, margin: 0, padding: 0 }}>{errorCode}</p>
-        <p className='text-red-500' style={{ fontSize: 28, margin: 0, padding: 0 }}>
-          {errorTitle}
+        <p style={{ fontSize: 124, fontWeight: 800, margin: 0, padding: 0 }}>{error.statusCode}</p>
+        <p className='text-red-500' style={{ fontSize: 16, margin: 0, padding: 0 }}>
+          {/* {errorTitle} */}
+          {error.message}
         </p>
         <Button className='text-center mt-2' onClick={handleRerender} variant={'outline'}>
           REFRESH
