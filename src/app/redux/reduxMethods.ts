@@ -13,12 +13,16 @@ export function concatArraysSortByDateStatus(...arrays: MonitorDataShape[]): Mon
   return Array.from(combinedArray).sort(sortByDateStatus)
 }
 
-const RERENDER_THRESHOLD_MINUTES = 5
+export const RERENDER_THRESHOLD_MINUTES = 1
 
 export function canRerenderData(lastRenderTime: string): boolean {
   const lastRenderTimestamp = moment(lastRenderTime)
   const currentTime = moment()
   const diffInMinutes = currentTime.diff(lastRenderTimestamp, 'minutes')
-
-  return Math.abs(diffInMinutes) <= RERENDER_THRESHOLD_MINUTES
+  console.log(
+    'currentTime.diff(lastRenderTimestamp, "minutes")',
+    diffInMinutes,
+    Math.abs(diffInMinutes) >= RERENDER_THRESHOLD_MINUTES
+  )
+  return Math.abs(diffInMinutes) >= RERENDER_THRESHOLD_MINUTES
 }

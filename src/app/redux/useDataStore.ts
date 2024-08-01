@@ -23,7 +23,7 @@ const createMonitorDataSlice: StateCreator<MonitorDataState> = (set, get) => ({
     statusCode: 0,
   },
 
-  lastFetchTimestamp: moment().format('YYYY-MM-DD HH:mm:ss'),
+  lastFetchTimestamp: moment().format('YYYY-MM-DD HH:mm:ss'), // moment().format('YYYY-MM-DD HH:mm:ss'),
   // Rerender Monitor Data
   refreshMonitorData: () => {
     // set({ progress: 0, errorStatus: false, errorMessage: '', errorStatusCode: 0 })
@@ -31,6 +31,7 @@ const createMonitorDataSlice: StateCreator<MonitorDataState> = (set, get) => ({
   },
   getMonitorData: async () => {
     set({ isLoading: true, loadingProgress: 0, error: { hasError: false, message: '', statusCode: 0 } })
+    console.log('canRerenderData' + canRerenderData(get().lastFetchTimestamp))
 
     if (get().monitorData.length > 0 && canRerenderData(get().lastFetchTimestamp)) {
       set({ isLoading: false, loadingProgress: 100 })

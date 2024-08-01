@@ -54,7 +54,7 @@
   z-index: 50;
   box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
-  border: 1px solid darkslategray;
+  border: 0.5px solid #5d6378;
 }
 
 .minibar__bar:hover .minibar__tooltip {

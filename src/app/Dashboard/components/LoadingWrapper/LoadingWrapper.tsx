@@ -24,7 +24,7 @@ export default function LoadingWrapper({
           <LoadSpinner />
         ) : (
           <div>
-            {monitorDataExists && <div style={{ marginTop: '2rem' }}>{children}</div>}
+            {/* {monitorDataExists && <div style={{ marginTop: '2rem' }}>{children}</div>} */}
             <FadeInFadeOutProgressLabel />
             <Progress value={loadingProgress} />
           </div>

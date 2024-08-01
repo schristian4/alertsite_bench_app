@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDataStore } from '@/app/redux/useDataStore'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import moment from 'moment'
 import { useTheme } from '@/app/contexts/ThemeContexts'
+import { canRerenderData, RERENDER_THRESHOLD_MINUTES } from '@/app/redux/reduxMethods'
 
 const DataTableFooter: React.FC = () => {
   const { theme } = useTheme()
-  const { refreshMonitorData } = useDataStore()
+  const { refreshMonitorData, lastFetchTimestamp } = useDataStore()
 
   return (
     <div className='flex flex-row flex-wrap justify-between align-bottom mt-3'>
       <ApiInfoTooltip theme={theme} />
-      <RefreshStatusComponent refreshMonitorData={refreshMonitorData} />
+      <RefreshStatusComponent
+        refreshMonitorData={refreshMonitorData}
+        lastFetchTimestamp={lastFetchTimestamp}
+      />
     </div>
   )
 }
@@ -45,9 +49,12 @@ const ApiInfoTooltip: React.FC<{ theme: string }> = ({ theme }) => (
     </Tooltip>
   </TooltipProvider>
 )
-
-const RefreshStatusComponent: React.FC<{ refreshMonitorData: () => void }> = ({ refreshMonitorData }) => {
-  const [isRefreshing, setIsRefreshing] = React.useState(false)
+const RefreshStatusComponent: React.FC<{
+  refreshMonitorData: () => void
+  lastFetchTimestamp: string
+}> = ({ refreshMonitorData, lastFetchTimestamp }) => {
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [differenceTime, setDifferenceTime] = useState(0)
 
   const handleRerender = () => {
     setIsRefreshing(true)
@@ -55,19 +62,42 @@ const RefreshStatusComponent: React.FC<{ refreshMonitorData: () => void }> = ({ 
     setTimeout(() => setIsRefreshing(false), 2700)
   }
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentTime = moment()
+      const lastFetchMoment = moment(lastFetchTimestamp)
+      const diffInMinutes = currentTime.diff(lastFetchMoment, 'minutes')
+
+      setDifferenceTime(diffInMinutes)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [lastFetchTimestamp, refreshMonitorData])
+
+  const isRefreshDisabled = differenceTime < RERENDER_THRESHOLD_MINUTES
+
   return (
     <div className='text-right flex flex-row justify-end'>
       <div className='flex flex-col flex-end justify-end h-[50px]'>
         <span className='text-sm text-right'>
-          {`Last Updated: ${moment().format('MMMM Do YYYY, h:mm:ss a')}`}
+          {`Last Updated: ${moment(lastFetchTimestamp).format('MMMM Do YYYY, h:mm:ss a')}`}
         </span>
         <span
           className={`text-sm text-right text-gray-500 h-[24px] ${isRefreshing ? 'animate-fadeInOut' : ''}`}
         >
-          {isRefreshing ? 'Refreshing data...' : 'Refresh to update table...'}
+          {isRefreshDisabled
+            ? `Wait ${1 - differenceTime} minutes before refreshing`
+            : isRefreshing
+            ? 'Refreshing data...'
+            : 'Refresh to update table...'}
         </span>
       </div>
-      <Button onClick={handleRerender} variant='outline' style={{ marginLeft: 15, height: 50 }}>
+      <Button
+        onClick={handleRerender}
+        variant='outline'
+        style={{ marginLeft: 15, height: 50 }}
+        disabled={isRefreshDisabled}
+      >
         <div className='refreshButtonWrapper'>
           <span>Refresh</span>
         </div>
