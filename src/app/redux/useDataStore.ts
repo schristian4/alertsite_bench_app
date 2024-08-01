@@ -181,7 +181,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
     set({ isLoginFetchMonitorLoading: true, loginFetchMonitorProgress: 0, loginLoading: true })
     const { email, password, customerNum } = get().userInput
     try {
-      const promises = Array.from({ length: BATCH_URL_COUNT }, (_, i) =>
+      const promises = Array.from({ length: 6 }, (_, i) =>
         fetch(
           `/api/v1/get_user_monitor_data?timestampindex=${i}&email=${encodeURIComponent(
             email
@@ -200,10 +200,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
           })
           .then((data) => {
             set((state) => ({
-              loginFetchMonitorProgress: Math.min(
-                state.loginFetchMonitorProgress + (1 / BATCH_URL_COUNT) * 100,
-                100
-              ),
+              loginFetchMonitorProgress: Math.min(state.loginFetchMonitorProgress + (1 / 6) * 100, 100),
             }))
             return data
           })
