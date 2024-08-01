@@ -2,7 +2,7 @@
 import { useEffect } from 'react'
 import { useDataStore } from './redux/useDataStore'
 import { ThemeProvider } from './contexts/ThemeContexts'
-import DashboardComponent from './Dashboard/DashboardComponent'
+import DashboardComponent from '../app/Dashboard/DashboardComponent'
 
 export default function Home() {
   const { getMonitorData } = useDataStore()
