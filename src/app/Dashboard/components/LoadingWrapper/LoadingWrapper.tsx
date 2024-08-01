@@ -108,6 +108,7 @@ const LoadSpinner = () => {
 }
 // LoadSkeleton Component
 // This component is used to display a skeleton loading animation
+//TODO: Update skeleton styles to match design
 const LoadSkeleton = ({ progress }: { progress: number }) => {
   return (
     <div>

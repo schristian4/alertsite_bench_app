@@ -55,7 +55,7 @@ export const IncidentBanner = () => {
             counter(createParameterArray(locationNumberID, 'status', targetMajorSite, siteObject)))
         })
         if (locationErrorCount > 0) {
-          //0 , 55, 5 , 9,  10 , 1 ,2,4
+          //Example Status Codes: 0 , 55, 5 , 9,  10 , 1 ,2,4
           let IncidentBannerOBject = CreateAlertItem(
             locationName,
             locationErrorCount,
@@ -96,7 +96,7 @@ export const IncidentBanner = () => {
 const CreateAlertItem = (locationName: string, count: number, index: number, location_id: number) => {
   const { theme } = useTheme()
 
-  const { monitorData, setSelectedLocation } = useDataStore()
+  const { setSelectedLocation } = useDataStore()
 
   const lightToColors = ['to-orange-200', 'to-yellow-300', 'to-orange-400', 'to-yellow-300', 'to-orange-400']
   const darkToColors = ['to-blue-900', 'to-purple-900', 'to-blue-900', 'to-purple-900', 'to-blue-900']

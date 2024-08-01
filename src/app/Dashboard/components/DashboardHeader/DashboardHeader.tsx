@@ -9,7 +9,7 @@ import { SelectLoginLocationComponent } from './SelectLoginLocationList/SelectLo
 // Dashboard Header Component
 // This component is used to display the dashboard header
 export const DashboardHeader = () => {
-  const { loadingProgress, isLoading, error, loginErrorStatus } = useDataStore()
+  const { loadingProgress, isLoading, error } = useDataStore()
 
   return (
     <CardHeader className={'flex flex-row justify-between items-center flex-wrap'}>

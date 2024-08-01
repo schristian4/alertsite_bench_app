@@ -12,7 +12,6 @@ import {
 } from '../../../../components/ui/dialog'
 import { Input } from '../../../../components/ui/input'
 import { Label } from '../../../../components/ui/label'
-import * as DialogPrimitive from '@radix-ui/react-dialog'
 
 // Dialog Login Box Component
 // This component is used to display a dialog box for login
@@ -31,13 +30,12 @@ export function DialogLoginBox() {
             AlertSite Technical Benchmark.
           </DialogDescription>
         </DialogHeader>
-
         {/*
         Render the appropriate content based on the login status
           - If login status is false, render the login dialog content
           - If login status is true, render the login success content
         */}
-        <>{loginStatus === false ? <LoginDialogContent /> : <LoginSuccessContent />}</>
+        <>{loginStatus === true ? <LoginSuccessContent /> : <LoginDialogContent />}</>
       </DialogContent>
     </Dialog>
   )
@@ -50,8 +48,8 @@ const LoginDialogContent = () => {
 
   function handleSubmit() {
     LoginUserSubmit()
-    DialogTrigger
   }
+
   return (
     <>
       <div className='grid gap-4 py-4'>
