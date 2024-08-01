@@ -1,4 +1,4 @@
-export const batch_url_count = 12 // number of batch urls that can
+export const BATCH_URL_COUNT = 12 // number of batch urls that can
 export const batch_urls: string[] = [
   // '/api/monitor_batch_1',
   // '/api/monitor_batch_2',

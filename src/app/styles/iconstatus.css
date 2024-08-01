@@ -1,56 +1,66 @@
 .iconWrapper {
-  /* position: relative; */
+  position: relative;
+  display: inline-block; /* Add this to contain the absolute positioned child */
 }
+
 .iconWrapper > .iconStatus {
-  /* position: absolute; */
+  position: absolute;
   display: flex;
   justify-content: center;
-  /* left: 35%; */
+  align-items: center; /* Add this for vertical centering */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for perfect centering */
 }
+
 .iconStatus {
   color: #fff;
   font-size: 1rem;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  padding-left: 0px;
   border: 2px solid;
-  line-height: 26px;
-  /* left: 4px; */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center;
+  align-items: center;
 }
+
 .icon-danger {
-  text-shadow: 1.2px 1.2px #8c0224;
+  text-shadow: 1px 1px #8c0224;
   border-color: #8c0224;
   background-color: #da0000;
 }
+
 .icon-danger::before {
-  font-family: 'FontAwesome';
-  position: absolute;
-  left: 4.8px;
   content: '\2716';
 }
+
 .icon-warning {
-  text-shadow: 1.2px 1.2px #7f5b06;
+  text-shadow: 1px 1px #7f5b06;
   border-color: #7f5b06;
   background-color: #f9b302;
 }
+
 .icon-warning::before {
-  font-family: 'FontAwesome';
-  position: absolute;
-  left: 5.8px;
   content: '\FF01';
   font-size: 1.2rem;
 }
+
 .icon-check {
-  text-shadow: 1.2px 1.2px #155d3b;
+  text-shadow: 1px 1px #155d3b;
   border-color: #155d3b;
   background-color: #28b06f;
 }
+
 .icon-check::before {
-  font-family: 'FontAwesome';
-  position: absolute;
-  left: 5px;
   content: '\2714';
+}
+
+/* Common styles for all icons */
+.icon-danger::before,
+.icon-warning::before,
+.icon-check::before {
+  font-family: 'FontAwesome', sans-serif;
 }
 
 .card {

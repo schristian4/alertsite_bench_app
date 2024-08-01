@@ -1,3 +1,4 @@
+// Generate percentage from paramArray
 export function getPercentage(paramArray: PercentageDefinition): number {
   let errorCounter = 0
   for (let i = 0; i < paramArray.length; i++) {

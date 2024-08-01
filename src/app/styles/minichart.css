@@ -1,60 +1,72 @@
 .minibar {
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
 }
+
 .minibar__bar {
   position: relative;
   flex: 1;
   margin-right: 1px;
 }
+
 .minibar__bar:last-child {
-  margin-right: 0px;
+  margin-right: 0;
 }
+
 .minibar__bar_bg_light {
   background-color: #eeeef4;
 }
+
 .minibar__bar_bg_dark {
   background-color: #1e2840;
 }
-.red {
-  background-color: red !important;
-  color: red !important;
+
+.minibar__fill {
+  position: absolute;
+  background-color: #42b983;
+  min-height: 5px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
 }
+
 .minibar__bar:hover .minibar__fill {
   background-color: #ccc;
+}
+
+.minibar__tooltip {
+  position: absolute;
+  top: -50px;
+  right: 50%;
+  transform: translateY(0);
+  width: max-content;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: monospace;
+  line-height: 1.2;
+  padding: 4px;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  border: 1px solid darkslategray;
 }
 
 .minibar__bar:hover .minibar__tooltip {
   opacity: 1;
   transform: translateY(-10px);
-  padding: 10px;
 }
+
 .minibar__tooltip > div {
   padding: 5px;
   font-size: 18px;
-  text-shadow: 1px 1px #b80000;
 }
-.minibar__tooltip {
-  position: absolute;
-  top: -50px;
-  right: 50%;
-  width: max-content;
-  margin-left: -10px;
-  text-align: center;
 
-  font-size: 15px;
-  font-weight: bold;
-  font-family: monospace;
-  line-height: 12px;
-  padding: 4px;
-  opacity: 0;
-  transition: transform 0.3s;
-  transform: translateY(0);
-  pointer-events: none;
-  z-index: 50;
-  box-shadow: black 0px 20px 30px -10px;
-}
 .minibar__tooltip > p {
   padding: 3.5px;
 }
@@ -68,17 +80,11 @@
   height: 100%;
 }
 
-.minibar__fill {
-  position: absolute;
-  background-color: #42b983;
-  min-height: 5px;
-  left: 0;
-  right: 0;
-  width: 100%;
-  bottom: 0;
+.red {
+  background-color: red !important;
+  color: red !important;
 }
 
-/** presentation **/
 @keyframes fadeInOut {
   0%,
   100% {
@@ -88,6 +94,72 @@
     opacity: 1;
   }
 }
+
 .animate-fadeInOut {
   animation: fadeInOut 3s ease-in-out infinite;
+}
+
+.minibar__bar--light {
+  background-color: #eeeef4;
+}
+
+.minibar__bar--dark {
+  background-color: #1e2840;
+}
+
+.minibar__bar--error {
+  background-color: red;
+}
+
+.minibar__fill--light {
+  background-color: #eeeef4;
+}
+
+.minibar__fill--dark {
+  background-color: #1e2840;
+}
+
+.minibar__fill--error {
+  background-color: red;
+}
+
+.minibar__tooltip {
+  /* Add common tooltip styles */
+  border-radius: 5px;
+}
+
+.minibar__tooltip--light {
+  background-color: #eeeef4;
+  color: #96a0c0;
+}
+
+.minibar__tooltip--dark {
+  background-color: #1e2840;
+  color: #eeeef4;
+}
+
+.minibar__status {
+  padding: 5px;
+  margin-top: 2px;
+  border-radius: 5px;
+}
+
+.minibar__status--success {
+  background-color: green;
+}
+
+.minibar__status--error {
+  background-color: red;
+}
+
+.minibar__status-text {
+  font-weight: bold;
+}
+
+.minibar__status-text--success {
+  color: #b3f0b3; /* light green */
+}
+
+.minibar__status-text--error {
+  color: #ffb3b3; /* light red */
 }
