@@ -3,7 +3,7 @@ import { useDataStore } from '@/app/redux/useDataStore'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import moment from 'moment'
-import { useTheme } from '@/app/Dashboard/components/contexts/ThemeContexts'
+import { useTheme } from '@/app/contexts/ThemeContexts'
 
 const DataTableFooter: React.FC = () => {
   const { theme } = useTheme()

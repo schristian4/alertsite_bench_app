@@ -5,7 +5,6 @@ import { useDataStore } from '@/app/redux/useDataStore'
 import { getPercentage } from '@/utils/getPercentage'
 import { nestGroupsBy } from '@/utils/groupFunctions'
 import moment from 'moment'
-import { Theme, useTheme } from '@/app/Dashboard/components/contexts/ThemeContexts'
 
 import { LocationDropDown } from '../LocationDropdown/LocationDropdown'
 import { Columns } from './components/Columns/Columns'
@@ -14,6 +13,7 @@ import IconStatus from './components/IconStatus/IconStatus'
 import { createMultiParameterArrays, findMinMax, SiteObject } from './methods'
 import './styles/circle.css'
 import { MonitorDataShape } from '@/lib/types'
+import { Theme, useTheme } from '@/app/contexts/ThemeContexts'
 
 // TODO: Review and refactor this component
 // Dashboard Data Table component

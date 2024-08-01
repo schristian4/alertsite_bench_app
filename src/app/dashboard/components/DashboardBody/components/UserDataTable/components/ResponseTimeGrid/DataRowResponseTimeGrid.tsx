@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme } from '@/app/Dashboard/components/contexts/ThemeContexts'
+import { Theme } from '@/app/contexts/ThemeContexts'
 import { findMinMax } from '../../methods'
 import moment from 'moment'
 interface GridEntryProps {
