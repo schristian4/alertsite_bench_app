@@ -1,8 +1,8 @@
 'use client'
 import { useEffect } from 'react'
 import { useDataStore } from './redux/useDataStore'
-import Dashboard from './Dashboard/Dashboard'
 import { ThemeProvider } from '@/app/Dashboard/components/contexts/ThemeContexts'
+import Dashboard from '@/app/Dashboard/Dashboard'
 
 export default function Home() {
   const { getMonitorData } = useDataStore()
