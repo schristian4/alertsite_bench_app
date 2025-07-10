@@ -6,6 +6,7 @@ import DashboardDataTable from './components/DataTable/DashboardDataTable'
 import { IncidentBanner } from './components/IncidentBanner/IncidentBanner'
 import DashboardUserDataTable from './components/UserDataTable/DashboardUserDataTable'
 import { WidgetBanner } from './components/WidgetBanner/WidgetBanner'
+import { DataLoadingNotification } from './components/DataLoadingNotification/DataLoadingNotification'
 import ErrorBoundary from '../ErrorMessage/ErrorBoundary'
 
 const DashboardBody = () => {
@@ -20,6 +21,7 @@ const DashboardBody = () => {
           loadingProgress={loadingProgress}
           monitorDataExists={monitorData && monitorData.length > 0}
         >
+          <DataLoadingNotification />
           <IncidentBanner />
           <WidgetBanner />
           <DashboardUserDataTable />

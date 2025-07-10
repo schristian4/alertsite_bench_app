@@ -7,31 +7,99 @@ import { debounce } from 'lodash'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 
 import { BATCH_URL_COUNT } from '@/lib/constants'
-import { MonitorDataShape } from '@/lib/types'
-import { canRerenderData, concatArraysSortByDateStatus } from './reduxMethods'
+import { MonitorDataShape, ApiMetadata } from '@/lib/types'
+import { canRerenderData, concatArraysSortByDateStatus, CacheManager } from './reduxMethods'
 
 // Create the monitor data slice
 const createMonitorDataSlice: StateCreator<MonitorDataState> = (set, get) => ({
   monitorData: [],
-  isLoading: true,
+  isLoading: false, // Start as false, will be set to true when fetch begins
   loadingProgress: 0,
   error: {
     hasError: false,
     message: '',
     statusCode: 0,
   },
-  lastFetchTimestamp: moment().format('YYYY-MM-DD HH:mm:ss'),
+  lastFetchTimestamp: '', // Empty string indicates no previous fetch
+  apiMetadata: null,
+  cacheStatus: {
+    isFromCache: false,
+    cacheAge: 0,
+    isUpdating: false,
+  },
   refreshMonitorData: () => {
     get().getMonitorData()
   },
+  clearCache: () => {
+    CacheManager.clearCache()
+    set({
+      cacheStatus: {
+        isFromCache: false,
+        cacheAge: 0,
+        isUpdating: false,
+      },
+    })
+  },
   getMonitorData: async () => {
-    set({ isLoading: true, loadingProgress: 0 })
-
-    if (get().error.hasError === true || canRerenderData(get().lastFetchTimestamp)) {
-      set({ isLoading: false, loadingProgress: 100 })
+    // Prevent concurrent calls
+    if (get().isLoading) {
+      console.log('Already loading, skipping duplicate call')
       return
     }
-    set({ error: { hasError: false, message: '', statusCode: 0 } })
+
+    // Step 1: Try to load from cache first for instant UI
+    const cachedData = CacheManager.loadFromCache()
+
+    if (cachedData) {
+      const cacheAge = CacheManager.getCacheAge(cachedData.timestamp)
+      console.log(`Loading cached data (${cacheAge} minutes old)`)
+
+      // Load cached data immediately
+      set({
+        monitorData: cachedData.monitorData,
+        apiMetadata: cachedData.apiMetadata,
+        lastFetchTimestamp: cachedData.timestamp,
+        isLoading: false,
+        loadingProgress: 100,
+        cacheStatus: {
+          isFromCache: true,
+          cacheAge,
+          isUpdating: false,
+        },
+        error: { hasError: false, message: '', statusCode: 0 },
+      })
+
+      // Check if cache is still fresh (< 15 minutes)
+      if (CacheManager.isCacheFresh(cachedData.timestamp)) {
+        console.log('Cache is fresh, no need to fetch')
+        return
+      }
+
+      // Cache is stale, update in background
+      console.log('Cache is stale, fetching fresh data in background')
+      set((state) => ({
+        cacheStatus: {
+          ...state.cacheStatus,
+          isUpdating: true,
+        },
+      }))
+    } else {
+      // No cache available, show loading state
+      console.log('No cached data, fetching fresh data')
+      set({
+        isLoading: true,
+        loadingProgress: 0,
+        apiMetadata: null,
+        cacheStatus: {
+          isFromCache: false,
+          cacheAge: 0,
+          isUpdating: false,
+        },
+        error: { hasError: false, message: '', statusCode: 0 },
+      })
+    }
+
+    // Step 2: Fetch fresh data from API
 
     try {
       const promises = Array.from({ length: BATCH_URL_COUNT }, (_, i) =>
@@ -43,28 +111,108 @@ const createMonitorDataSlice: StateCreator<MonitorDataState> = (set, get) => ({
             }
             return resp.json()
           })
-          .then((data) => {
+          .then((responseData) => {
             set((state) => ({
-              loadingProgress: Math.min(state.loadingProgress + (1 / BATCH_URL_COUNT) * 100, 100),
+              loadingProgress: Math.min(state.loadingProgress + (1 / BATCH_URL_COUNT) * 100, 95), // Cap at 95% to leave room for processing
             }))
-            return data
+            // Handle new API response format
+            return responseData
           })
       )
 
       const results = await Promise.all(promises)
-      const concatenatedData = concatArraysSortByDateStatus(...results)
+      const validResults = results.filter(
+        (result) => result && (result.data || (Array.isArray(result) && result.length > 0))
+      )
+
+      // Extract data and metadata from API responses
+      const allData = []
+      const allMetadata = []
+
+      for (const result of validResults) {
+        if (result.data) {
+          // New API format with metadata
+          allData.push(...result.data)
+          allMetadata.push(result.metadata)
+        } else if (Array.isArray(result)) {
+          // Legacy format
+          allData.push(...result)
+        }
+      }
+
+      const concatenatedData = concatArraysSortByDateStatus(...allData)
 
       if (concatenatedData.length === 0) {
         throw new Error('No data found')
       }
 
+      // Aggregate metadata for user feedback
+      const aggregatedMetadata =
+        allMetadata.length > 0
+          ? {
+              totalRequested: allMetadata.reduce((sum, meta) => sum + meta.totalRequested, 0),
+              successCount: allMetadata.reduce((sum, meta) => sum + meta.successCount, 0),
+              failureCount: allMetadata.reduce((sum, meta) => sum + meta.failureCount, 0),
+              skippedCount: allMetadata.reduce((sum, meta) => sum + (meta.skippedCount || 0), 0),
+              timestamp: new Date().toISOString(),
+              timeRangeKey: 'aggregated',
+              failedRequests: allMetadata.flatMap((meta) => meta.failedRequests || []),
+              skippedRequests: allMetadata.flatMap((meta) => meta.skippedRequests || []),
+            }
+          : null
+
+      const currentTimestamp = moment().format('YYYY-MM-DD HH:mm:ss')
+
+      // Save fresh data to cache
+      CacheManager.saveToCache(concatenatedData, aggregatedMetadata)
+
       set({
         monitorData: concatenatedData,
         isLoading: false,
-        lastFetchTimestamp: moment().format('YYYY-MM-DD HH:mm:ss'),
+        loadingProgress: 100, // Set to 100% only when completely done
+        lastFetchTimestamp: currentTimestamp,
+        apiMetadata: aggregatedMetadata,
+        cacheStatus: {
+          isFromCache: false,
+          cacheAge: 0,
+          isUpdating: false,
+        },
       })
+
+      // Log warnings for partial failures and skipped requests
+      if (
+        aggregatedMetadata &&
+        (aggregatedMetadata.failureCount > 0 || aggregatedMetadata.skippedCount > 0)
+      ) {
+        const messages = []
+
+        if (aggregatedMetadata.failureCount > 0) {
+          messages.push(`${aggregatedMetadata.failureCount} requests failed`)
+        }
+
+        if (aggregatedMetadata.skippedCount > 0) {
+          messages.push(`${aggregatedMetadata.skippedCount} requests skipped due to consistent errors`)
+        }
+
+        console.warn(
+          `Some monitor data was not loaded: ${messages.join(', ')} out of ${
+            aggregatedMetadata.totalRequested
+          } total requests`
+        )
+
+        // Log detailed information about skipped requests
+        if (aggregatedMetadata.skippedCount > 0) {
+          console.info(
+            `Skipped requests help reduce unnecessary API calls when timestamp ranges consistently fail`
+          )
+        }
+      }
     } catch (error: any) {
       console.error('Error fetching monitor data:', error)
+      // On error, preserve cached data if available
+      const currentState = get()
+      const hasValidCache = currentState.cacheStatus.isFromCache && currentState.monitorData.length > 0
+
       set({
         error: {
           hasError: true,
@@ -72,6 +220,12 @@ const createMonitorDataSlice: StateCreator<MonitorDataState> = (set, get) => ({
           message: error instanceof Error ? error.message : 'An unknown error occurred',
         },
         isLoading: false,
+        loadingProgress: hasValidCache ? 100 : 0, // Keep progress if we have cached data
+        apiMetadata: hasValidCache ? currentState.apiMetadata : null,
+        cacheStatus: {
+          ...currentState.cacheStatus,
+          isUpdating: false, // Stop updating indicator
+        },
       })
     }
   },
@@ -154,6 +308,7 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
       }
       const data = await response.json()
       // Map the monitor data to a device list
+      //TODO: filter by monitor["monitor"] === "y"
       const deviceList = data.map((monitor: any) => ({
         id: monitor['obj_device'],
         name: monitor['device_name'],
@@ -204,18 +359,20 @@ const createLoginSlice: StateCreator<LoginStoreStates> = (set, get) => ({
             }
             return resp.json()
           })
-          .then((data) => {
+          .then((responseData) => {
             set((state) => ({
               loginFetchMonitorProgress: Math.min(state.loginFetchMonitorProgress + (1 / 6) * 100, 100),
             }))
-            return data
+            // Handle new API response format
+            return responseData.data || responseData
           })
       )
 
       // Wait for all promises to resolve
       const results = await Promise.all(promises)
-      // const validData = results.filter((data) => data !== null)
-      const concatenatedData = concatArraysSortByDateStatus(...results)
+      const validResults = results.filter((result) => result && result.length > 0)
+      const concatenatedData = concatArraysSortByDateStatus(...validResults)
+
       if (concatenatedData.length === 0) {
         throw new Error('No data found')
       }
@@ -282,8 +439,15 @@ interface MonitorDataState {
     statusCode: number
   }
   lastFetchTimestamp: string
+  apiMetadata: ApiMetadata | null
+  cacheStatus: {
+    isFromCache: boolean
+    cacheAge: number
+    isUpdating: boolean
+  }
   refreshMonitorData: () => void
   getMonitorData: () => Promise<void>
+  clearCache: () => void
 }
 
 // Define the device state interface

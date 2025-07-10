@@ -12,6 +12,7 @@ export const batch_urls: string[] = [
   // '/api/monitor_batch_10',
   // '/api/monitor_batch_11',
 ]
+
 export const monitorIDs = [
   '613072',
   '606458',

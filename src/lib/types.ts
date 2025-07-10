@@ -34,3 +34,28 @@ export interface MonitorDataShape {
   test_cnt: string
   status_warning: string
 }
+
+export interface ApiMetadata {
+  totalRequested: number
+  successCount: number
+  failureCount: number
+  skippedCount: number
+  timestamp: string
+  timeRangeKey: string
+  customer_id?: string
+  failedRequests?: {
+    deviceId: string
+    error: string
+    retryCount: number
+  }[]
+  skippedRequests?: {
+    deviceId: string
+    error: string
+    reason: string
+  }[]
+}
+
+export interface ApiResponse {
+  data: MonitorDataShape[]
+  metadata: ApiMetadata
+}

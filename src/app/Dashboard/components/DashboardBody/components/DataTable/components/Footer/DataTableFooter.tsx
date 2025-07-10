@@ -11,8 +11,9 @@ const DataTableFooter: React.FC = () => {
   const { refreshMonitorData, lastFetchTimestamp } = useDataStore()
 
   return (
-    <div className='flex flex-row flex-wrap justify-between align-bottom mt-3'>
+    <div className='flex flex-row flex-wrap justify-between align-bottom mt-3 items-center'>
       <ApiInfoTooltip theme={theme} />
+
       <RefreshStatusComponent
         refreshMonitorData={refreshMonitorData}
         lastFetchTimestamp={lastFetchTimestamp}
@@ -41,10 +42,11 @@ const ApiInfoTooltip: React.FC<{ theme: string }> = ({ theme }) => (
           </div>
         </Button>
       </TooltipTrigger>
+
       <TooltipContent>
         <p>Delay notice:</p>
         <p>&nbsp;&nbsp;Api data is populated in batch requests. </p>
-        <p>&nbsp;&nbsp;1 hour delay due to funding limitations. </p>
+        <p>&nbsp;&nbsp;1 hour delay due to report API limitations. </p>
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>

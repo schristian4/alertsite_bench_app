@@ -141,7 +141,7 @@ const MinibarItem = ({
           backgroundColor: theme == 'light' ? '#eeeef4' : '#1e2840',
 
           borderRadius: 5,
-          color: theme == 'light' ? '#96a0c0;' : '#eeeef4',
+          color: theme == 'light' ? '#96a0c0' : '#eeeef4',
         }}
       >
         <p>Date: {moment(inputDate).local().format('YYYY-MM-DD hh:mm:ss A')}</p>

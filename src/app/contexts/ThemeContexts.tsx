@@ -28,16 +28,24 @@ export function ThemeProvider({
   storageKey = 'shadcdn-ui-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    // Check localStorage first, then use defaultTheme
+  const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const [isHydrated, setIsHydrated] = useState(false)
+
+  // Hydrate theme from localStorage after component mounts (client-side only)
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedTheme = localStorage.getItem(storageKey) as Theme | null
-      return storedTheme ?? defaultTheme
+      if (storedTheme) {
+        setTheme(storedTheme)
+      }
+      setIsHydrated(true)
     }
-    return defaultTheme
-  })
+  }, [storageKey])
 
   useEffect(() => {
+    // Only apply theme changes after hydration is complete
+    if (!isHydrated) return
+
     const root = window.document.documentElement
     root.classList.remove('light', 'dark')
 
@@ -47,10 +55,13 @@ export function ThemeProvider({
     } else {
       root.classList.add(theme)
     }
-  }, [theme])
+  }, [theme, isHydrated])
 
   // Add listener for system theme changes
   useEffect(() => {
+    // Only add listeners after hydration is complete
+    if (!isHydrated) return
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = () => {
       if (theme === 'system') {
@@ -62,12 +73,14 @@ export function ThemeProvider({
 
     mediaQuery.addEventListener('change', handleChange)
     return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [theme])
+  }, [theme, isHydrated])
 
   const value = {
     theme,
     setTheme: (newTheme: Theme) => {
-      localStorage.setItem(storageKey, newTheme)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(storageKey, newTheme)
+      }
       setTheme(newTheme)
     },
   }
